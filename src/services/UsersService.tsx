@@ -1,0 +1,71 @@
+import axios from "axios";
+import { User } from "../types/user.type";
+const url = "http://localhost:5000/allUsers";
+const urlDelete = "http://localhost:5000/user/";
+const urlLogin = "http://localhost:5000/login";
+
+export async function getUsers(): Promise<User[]> {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("Token manquant, utilisateur non autorisé.");
+  }
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const response = await axios.get(url, config);
+    if (Array.isArray(response.data.users)) {
+      return response.data.users;
+    } else {
+      throw new Error("Format des données incorrect.");
+    }
+  } catch (error) {
+    console.error("Erreur lors de la récupération des utilisateurs:", error);
+    throw error;
+  }
+}
+
+export async function deleteUser(id: string): Promise<void> {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("Token manquant, utilisateur non autorisé.");
+  }
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const response = await axios.delete(`${urlDelete}${id}`, config);
+    if (response.status === 200) {
+      console.log("Utilisateur supprimé:", id);
+    } else {
+      console.error("Échec de la suppression de l'utilisateur:", id);
+    }
+  } catch (error) {
+    console.error("Erreur lors de la suppression:", error);
+    throw error;
+  }
+}
+
+export async function loginUser(
+  email: string,
+  password: string
+): Promise<{ token: string; user: User }> {
+  try {
+    const response = await axios.post(urlLogin, { email, password });
+    const { token, user } = response.data;
+    if (!token || !user) {
+      throw new Error("Les données de connexion sont incorrectes.");
+    }
+
+    localStorage.setItem("token", token);
+  
+    return { token, user };
+  } catch (error) {
+    console.error("Erreur lors de la connexion :", error);
+    throw new Error("Échec de la connexion.");
+  }
+}

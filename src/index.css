@@ -1,0 +1,95 @@
+/* Importe ta police Poppins (après Tailwind) */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+/* Importe Tailwind en premier */
+@import "tailwindcss";
+
+/* RESET (si vraiment nécessaire, mais Tailwind gère déjà un reset) */
+/* * {
+  box-sizing: border-box;
+} */
+
+/* POLICE */
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* _____________________________________________________________________________________________________________________________ */
+
+/* Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Classe pour appliquer le flou (blur) */
+.blur-lg {
+  filter: blur(20px);
+}
+
+/* Classe personnalisée pour appliquer l'animation marquee */
+.animate-marquee {
+  animation: marquee 60s linear infinite;
+}
+
+@keyframes neonPulseClean {
+  0%, 100% {
+    text-shadow:
+      0 0 4px #fff,
+      0 0 8px #f0f,
+      0 0 12px #0ff,
+      0 0 16px #f0f;
+  }
+  50% {
+    text-shadow:
+      0 0 6px #fff,
+      0 0 12px #f0f,
+      0 0 18px #0ff,
+      0 0 24px #f0f;
+  }
+}
+
+.animate-neon-pulse-clean {
+  animation: neonPulseClean 1.4s ease-in-out infinite;
+}
+
+/* Neon gradient effect with white fill inside */
+@keyframes neonFlicker {
+  0%, 100% {
+    text-shadow:
+      0 0 2px #fff,
+      0 0 5px #2dd4bf,
+      0 0 10px #ec4899,
+      0 0 15px #a855f7;
+  }
+  50% {
+    text-shadow:
+      0 0 1px #fff,
+      0 0 3px #2dd4bf,
+      0 0 6px #ec4899,
+      0 0 10px #a855f7;
+  }
+}
+
+.neon-title {
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-align: center;
+
+  background: linear-gradient(to right, #2dd4bf, #ec4899, #a855f7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 0 2px #fff,
+    0 0 5px #2dd4bf,
+    0 0 10px #ec4899,
+    0 0 15px #a855f7;
+
+  animation: neonFlicker 2s infinite ease-in-out;
+}
