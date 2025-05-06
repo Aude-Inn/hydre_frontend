@@ -2,7 +2,7 @@ import axios from "axios";
 import { User } from "../types/user.type";
 
 
-const API_URL = import.meta.env.VITE_API_URL|| "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 
 const url = `${API_URL}/allUsers`;

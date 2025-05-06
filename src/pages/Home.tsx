@@ -5,7 +5,7 @@ import { Marquis } from "../components/Marquis";
 import '../index.css';
 
 export function Home() {
-  console.log("process env",process.env );
+ 
   return (
     <div className="relative min-h-screen overflow-hidden">
 
