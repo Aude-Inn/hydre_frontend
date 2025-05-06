@@ -57,15 +57,11 @@ export function Nav() {
         {user && (
           <li>
             <button
-              onClick={() => {
-                localStorage.removeItem("user");
-                localStorage.removeItem("token");
-                window.location.reload();
-              }}
-              className="text-red-400 hover:text-red-500 transition"
-            >
-              Logout
-            </button>
+                onClick={logout}
+                className="text-red-400 hover:text-red-500"
+              >
+                Logout
+              </button>
           </li>
         )}
       </ul>
