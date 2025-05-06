@@ -1,6 +1,7 @@
 import axios from "axios";
 import { GameNotificationData } from "../types/socket.types";
 
+
 // Supprimer les notif
 export const cleanExpiredNotifications = (notifications: GameNotificationData[]): GameNotificationData[] => {
   const oneWeekAgo = new Date().getTime() - 7 * 24 * 60 * 60 * 1000;
@@ -14,6 +15,7 @@ export const cleanExpiredNotifications = (notifications: GameNotificationData[])
 export const fetchValidNotifications = async (): Promise<GameNotificationData[]> => {
  
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  console.log(process.env);
   
   
   const response = await axios.get<GameNotificationData[]>(`${API_URL}/notifications`);
