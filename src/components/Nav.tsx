@@ -4,8 +4,9 @@ import { useAuth } from "../hooks/useAuth";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 export function Nav() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -123,11 +124,7 @@ export function Nav() {
           {user && (
             <li>
               <button
-                onClick={() => {
-                  localStorage.removeItem("user");
-                  localStorage.removeItem("token");
-                  window.location.reload();
-                }}
+                onClick={logout}
                 className="text-red-400 hover:text-red-500"
               >
                 Logout
