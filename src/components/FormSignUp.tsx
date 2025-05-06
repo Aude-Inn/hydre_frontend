@@ -23,13 +23,18 @@ export function FormSignUp() {
       return;
     }
 
+    
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"; 
+
     try {
-      const response = await axios.post("http://localhost:5000/register", {
+      
+      const response = await axios.post(`${API_URL}/register`, {
         name,
         email,
         password,
       });
 
+      
       localStorage.setItem("token", response.data.token);
       setSuccess(true);
       setLoading(false);
@@ -52,7 +57,7 @@ export function FormSignUp() {
 
   return (
     <div className="w-full max-w-md bg-black/20 backdrop-blur-sm border border-teal-400/20 shadow-lg rounded-2xl p-6 sm:p-10 transition-all duration-500">
-     
+      
       {success && (
         <div className="flex flex-col items-center justify-center mb-6 animate-fade-in">
           <svg
@@ -69,13 +74,14 @@ export function FormSignUp() {
         </div>
       )}
 
-   
+      {/* Titre du formulaire */}
       <h2 className="text-2xl font-semibold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-200 via-purple-200 to-teal-200">
         Inscris toi !
       </h2>
 
+      {/* Formulaire d'inscription */}
       <form onSubmit={handleSubmit} className="space-y-5">
-      
+        {/* Champ pour le nom */}
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-teal-200">
             Nickname :
@@ -90,7 +96,7 @@ export function FormSignUp() {
           />
         </div>
 
-        
+        {/* Champ pour l'email */}
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-teal-200">
             Email :
@@ -105,7 +111,7 @@ export function FormSignUp() {
           />
         </div>
 
-       
+        {/* Champ pour le mot de passe */}
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-teal-200">
             Mot de passe :
@@ -120,10 +126,10 @@ export function FormSignUp() {
           />
         </div>
 
-      
+        {/* Message d'erreur */}
         {error && <div className="text-red-500 text-sm text-center">{error}</div>}
 
-       
+        {/* Bouton d'envoi */}
         <button
           type="submit"
           className={`w-full py-2 px-4 bg-pink-500 text-white rounded-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition ${

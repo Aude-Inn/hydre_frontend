@@ -1,8 +1,13 @@
 import axios from "axios";
 import { User } from "../types/user.type";
-const url = "http://localhost:5000/allUsers";
-const urlDelete = "http://localhost:5000/user/";
-const urlLogin = "http://localhost:5000/login";
+
+
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
+
+const url = `${API_URL}/allUsers`;
+const urlDelete = `${API_URL}/user/`;
+const urlLogin = `${API_URL}/login`;
 
 export async function getUsers(): Promise<User[]> {
   const token = localStorage.getItem("token");

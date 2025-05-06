@@ -1,7 +1,7 @@
 import axios from "axios";
 import { MessageData } from "../types/socket.types"; 
 
-const API_URL = "http://localhost:5000/messages"; 
+const API_URL = `${process.env.REACT_APP_API_URL || "http://localhost:5000"}/messages`; 
 
 // delete
 export const deleteMessage = async (messageId: string): Promise<void> => {

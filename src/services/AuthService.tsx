@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const API_URL = 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 // réinitialisation de mot de passe
 export const forgotPassword = async (email: string): Promise<{ message: string }> => {

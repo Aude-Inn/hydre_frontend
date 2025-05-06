@@ -2,7 +2,7 @@ import axios from "axios";
 import { Game } from "../types/game.type";
 
 // Base URL
-const BASE_URL = "http://localhost:5000/games";
+const BASE_URL = `${process.env.REACT_APP_BASE_URL || "http://localhost:5000"}/games`;
 
 
 const config = {
