@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/useAuth";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 export function Nav() {
-  const { user, logout } = useAuth();
+  const { user, logout} = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
