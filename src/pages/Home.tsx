@@ -5,6 +5,7 @@ import { Marquis } from "../components/Marquis";
 import '../index.css';
 
 export function Home() {
+  console.log("process env",process.env );
   return (
     <div className="relative min-h-screen overflow-hidden">
 
@@ -22,6 +23,7 @@ export function Home() {
         <div className="mb-10">
           <Carousel />
         </div>
+
         {/* Top */}
         <div className="mb-10">
           <TopGamesTable />
