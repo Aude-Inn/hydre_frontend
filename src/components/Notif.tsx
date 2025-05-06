@@ -5,7 +5,7 @@ import { fetchValidNotifications, cleanExpiredNotifications } from "../services/
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Heart } from "lucide-react";
-import { NotificationsDropdown } from "./NotificationsDropdown"; // Assure-toi du bon chemin
+import { NotificationsDropdown } from "./NotificationsDropdown"; 
 
 export function Notifications() {
   const [notifications, setNotifications] = useState<GameNotificationData[]>([]);
