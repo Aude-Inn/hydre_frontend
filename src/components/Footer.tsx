@@ -5,9 +5,8 @@ export function Footer() {
         {/* Contact */}
         <div>
           <h3 className="font-semibold text-pink-400 mb-2">Contact</h3>
-          <p>06 Bd de la mer</p>
-          <p className="text-teal-300 hover:text-pink-400 transition">martin.aude@outlook.fr</p>
-          <p>06 77 26 12 53</p>
+          <p>La Rochelle</p>
+          <p className="text-teal-300 hover:text-pink-400 transition">Email</p>
         </div>
 
         {/* Liens utiles */}
