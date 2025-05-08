@@ -11,32 +11,38 @@ import { GameDetails } from "./pages/GameDetails";
 import { GameLists } from "./pages/GameLists";
 import { NotFound } from "./pages/NotFound";
 import { AdminRoute, PrivateRoute } from "./components/PrivateRoute";
-import {ForgotPassword} from './components/ForgotPassword';
-import {ResetPassword} from './components/ResetPassword';
+import { ForgotPassword } from "./components/ForgotPassword";
+import { ResetPassword } from "./components/ResetPassword";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
+          {/* Page de réinitialisation SANS layout */}
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+          {/* Toutes les autres pages AVEC layout */}
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/game-details/:id" element={<GameDetails />} />
-            <Route path="/game-lists" element={<GameLists />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
-            <Route path="" element={<NotFound />} />
-            {/* user */}
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignUpPage />} />
+            <Route path="game-details/:id" element={<GameDetails />} />
+            <Route path="game-lists" element={<GameLists />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+
+            {/* Routes privées utilisateur */}
             <Route element={<PrivateRoute requiredRole="user" />}>
-              <Route path="/profile" element={<UserProfile />} />
+              <Route path="profile" element={<UserProfile />} />
             </Route>
-            {/* admin */}
+
+            {/* Routes admin */}
             <Route element={<AdminRoute />}>
-              <Route path="/profile" element={<UserProfile />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="dashboard" element={<Dashboard />} />
             </Route>
+
+            {/* Catch-all : page 404 */}
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </Router>
