@@ -48,12 +48,12 @@ export function GamesTable({ isDashboard }: GamesTableProps) {
     const isEdit = games.some((game) => game._id === updatedGame._id);
 
     if (isEdit) {
-      // Mise à jour du jeu existant
+      // Mise à jour 
       setGames((prevGames) =>
         prevGames.map((g) => (g._id === updatedGame._id ? updatedGame : g))
       );
     } else {
-      // Ajout d’un nouveau jeu
+      // Ajout 
       setGames((prevGames) => [...prevGames, updatedGame]);
     }
 

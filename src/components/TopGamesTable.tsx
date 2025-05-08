@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; 
 import { getGame } from "../services/GameService";
 import { Game } from "../types/game.type";
 
@@ -56,7 +57,17 @@ export function TopGamesTable() {
                 className="border-b border-white/10 hover:bg-white/10 transition duration-200"
               >
                 <td className="py-3 px-6 font-semibold text-teal-300">{index + 1}</td>
-                <td className="py-3 px-6">{game.name}</td>
+
+                
+                <td className="py-3 px-6">
+                  <Link
+                    to={`/game-details/${game._id}`}
+                    className="text-pink-300 hover:underline"
+                  >
+                    {game.name}
+                  </Link>
+                </td>
+
                 <td className="py-3 px-6 font-semibold text-pink-300">
                   {game.averageRating.toFixed(1)}
                 </td>
@@ -68,4 +79,5 @@ export function TopGamesTable() {
     </div>
   );
 }
+
 
