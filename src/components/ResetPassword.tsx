@@ -38,6 +38,7 @@ export function ResetPassword(): JSX.Element {
     try {
       if (!token) throw new Error('Token manquant');
 
+      
       const response = await resetPassword(token, password);
       setMessage(response.message);
 
