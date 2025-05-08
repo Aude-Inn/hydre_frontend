@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { loginUser } from "../services/UsersService";
+import { Link } from "react-router-dom";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -78,9 +79,9 @@ export function Login() {
         </div>
 
         <div className="mb-4 text-right">
-          <a href="/forgot-password" className="text-sm text-teal-300 hover:text-pink-400">
-            Mot de passe oublié ?
-          </a>
+          <Link to="/forgot-password" className="text-sm text-teal-300 hover:text-pink-400">
+           Mot de passe oublié ?
+          </Link>
         </div>
 
         {error && <div className="text-red-400 mb-4">{error}</div>}
