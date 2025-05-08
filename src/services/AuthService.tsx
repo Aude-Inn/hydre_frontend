@@ -11,6 +11,6 @@ export const forgotPassword = async (email: string): Promise<{ message: string }
 
 // Réinitialisation avec token
 export const resetPassword = async (token: string, password: string): Promise<{ message: string }> => {
-  const response = await axios.post(`${API_URL}/reset-password`, { token, password });
+  const response = await axios.post(`${API_URL}/reset-password/${token}`, { password });
   return response.data;
 };
