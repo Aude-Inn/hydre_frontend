@@ -90,7 +90,7 @@ export function Profil() {
 
       {user.role === "user" && (
         <div className="mt-6">
-          <h3 className="text-xl font-semibold mb-2">Une proposition ?</h3>
+          <h3 className="text-xl font-semibold mb-2">Tu veux voir un jeu ajouté sur Hydre ? Envoie-moi ta suggestion !</h3>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
