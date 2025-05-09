@@ -90,8 +90,8 @@ export async function updateUser(
   };
 
   try {
-    // Change l'URL ici pour correspondre à la route PUT du backend
-    const response = await axios.put(`${API_URL}/updateUser`, updatedData, config);
+   
+    const response = await axios.put(`${API_URL}/users/updateUser`, updatedData, config);
 
     if (response.status === 200 && response.data.user) {
       console.log("Utilisateur mis à jour:", response.data.user);
