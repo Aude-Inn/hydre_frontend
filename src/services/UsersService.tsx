@@ -8,6 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const url = `${API_URL}/allUsers`;
 const urlDelete = `${API_URL}/user/`;
 const urlLogin = `${API_URL}/login`;
+const urlUpdate =`${API_URL}/updateUser`;
 
 export async function getUsers(): Promise<User[]> {
   const token = localStorage.getItem("token");
@@ -91,7 +92,7 @@ export async function updateUser(
 
   try {
    
-    const response = await axios.put(`${API_URL}/users/updateUser`, updatedData, config);
+    const response = await axios.put(`${API_URL}${urlUpdate}`, updatedData, config);
 
     if (response.status === 200 && response.data.user) {
       console.log("Utilisateur mis à jour:", response.data.user);
