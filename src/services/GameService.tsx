@@ -4,20 +4,30 @@ import { Game } from "../types/game.type";
 // Base URL
 const BASE_URL = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/games`;
 
+// Fonction pour obtenir le token si besoin
+function getAuthConfig() {
+  const token = localStorage.getItem("token");
+  return token
+    ? {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+}
 
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
-
-//  mettre à jour un jeu
+// Mettre à jour un jeu
 export async function gameUpdate(id: string, updatedGame: Game): Promise<Game> {
-  const {...game } = updatedGame; 
   console.log("[Service] Mise à jour du jeu avec ID :", id);
 
   try {
-    const response = await axios.put(`${BASE_URL}/${id}`, game, config);
+    const config = getAuthConfig();
+    const response = await axios.put(`${BASE_URL}/${id}`, updatedGame, config);
     return response.data;
   } catch (error) {
     console.error("[Service] Erreur lors de la mise à jour du jeu :", error);
@@ -25,13 +35,13 @@ export async function gameUpdate(id: string, updatedGame: Game): Promise<Game> {
   }
 }
 
-// ajouter un nouveau jeu
+// Ajouter un nouveau jeu
 export async function gameAdd(gameData: Game): Promise<Game> {
-  const {...game } = gameData; 
   console.log("[Service] Ajout d'un nouveau jeu");
 
   try {
-    const response = await axios.post(BASE_URL, game, config);
+    const config = getAuthConfig();
+    const response = await axios.post(BASE_URL, gameData, config);
     return response.data;
   } catch (error) {
     console.error("[Service] Erreur lors de l'ajout du jeu :", error);
@@ -39,12 +49,13 @@ export async function gameAdd(gameData: Game): Promise<Game> {
   }
 }
 
-// supprimer un jeu par ID
+// Supprimer un jeu par ID
 export async function deleteGame(id: string): Promise<void> {
   console.log("[Service] Suppression du jeu avec ID :", id);
 
   try {
-    const response = await axios.delete(`${BASE_URL}/${id}`);
+    const config = getAuthConfig();
+    const response = await axios.delete(`${BASE_URL}/${id}`, config);
     if (response.status === 200) {
       console.log("[Service] Jeu supprimé avec succès :", id);
     } else {
@@ -56,7 +67,7 @@ export async function deleteGame(id: string): Promise<void> {
   }
 }
 
-// récupérer tous les jeux
+// Récupérer tous les jeux
 export async function getGame(): Promise<Game[]> {
   console.log("[Service] Récupération de tous les jeux");
 
@@ -69,7 +80,7 @@ export async function getGame(): Promise<Game[]> {
   }
 }
 
-// récupérer un jeu par ID
+// Récupérer un jeu par ID
 export async function getGameById(id: string): Promise<Game> {
   console.log("[Service] Récupération du jeu avec ID :", id);
 
