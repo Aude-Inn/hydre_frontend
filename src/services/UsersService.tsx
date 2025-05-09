@@ -92,7 +92,7 @@ export async function updateUser(
 
   try {
    
-    const response = await axios.put(`${API_URL}${urlUpdate}`, updatedData, config);
+    const response = await axios.put(urlUpdate, updatedData, config);
 
     if (response.status === 200 && response.data.user) {
       console.log("Utilisateur mis à jour:", response.data.user);
