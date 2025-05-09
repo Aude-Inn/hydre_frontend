@@ -7,6 +7,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const urlGetAll = `${API_URL}/api/users`;
 const urlLogin = `${API_URL}/api/auth/login`;
 const urlUpdate = `${API_URL}/api/users/me`;
+const urlUpdateById = (id: string) => `${API_URL}/api/users/${id}`;
 const urlDelete = `${API_URL}/api/users/`; 
 
 function getAuthConfig() {
@@ -82,5 +83,18 @@ export async function updateUser(
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l'utilisateur:", error);
     throw error;
+  }
+}
+
+export async function updateUserById(
+  id: string,
+  updatedData: { name: string; email: string; role: string }
+): Promise<User> {
+  const config = getAuthConfig();
+  const response = await axios.put(urlUpdateById(id), updatedData, config);
+  if (response.status === 200 && response.data.user) {
+    return response.data.user;
+  } else {
+    throw new Error("Échec de la mise à jour de l'utilisateur.");
   }
 }

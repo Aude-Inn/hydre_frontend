@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { User } from "../types/user.type";
-import { deleteUser, getUsers, updateUser } from "../services/UsersService";
+import { deleteUser, getUsers, updateUserById } from "../services/UsersService";
 
 interface UsersTableProps {
   isDashboard: boolean;
@@ -12,7 +12,7 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
   const [error, setError] = useState<string | null>(null);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [updatedName, setUpdatedName] = useState<string>("");
-  const [updatedEmail,  setUpdatedEmail] = useState<string>("");
+  const [updatedEmail, setUpdatedEmail] = useState<string>("");
   const [updatedRole, setUpdatedRole] = useState<string>("");
 
   useEffect(() => {
@@ -32,9 +32,7 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (
-      window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")
-    ) {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
       try {
         await deleteUser(id);
         setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
@@ -48,18 +46,18 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
   const handleEdit = (user: User) => {
     setEditingUser(user);
     setUpdatedName(user.name);
-    setUpdatedEmail(user.email)
+    setUpdatedEmail(user.email);
     setUpdatedRole(user.role);
   };
 
   const handleUpdate = async () => {
+    if (!editingUser) return;
     if (!updatedName || !updatedRole) {
       setError("Tous les champs sont obligatoires.");
       return;
     }
     try {
-     
-      const updatedUser = await updateUser({
+      const updatedUser = await updateUserById(editingUser._id, {
         name: updatedName,
         email: updatedEmail,
         role: updatedRole,
@@ -70,7 +68,8 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
           user._id === updatedUser._id ? updatedUser : user
         )
       );
-      setEditingUser(null); 
+      setEditingUser(null);
+      setError(null);
     } catch (error) {
       setError("Erreur lors de la mise à jour de l'utilisateur.");
       console.log(error);
