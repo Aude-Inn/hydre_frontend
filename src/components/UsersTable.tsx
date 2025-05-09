@@ -58,7 +58,7 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
       return;
     }
     try {
-      // Envoi des données mises à jour
+     
       const updatedUser = await updateUser({
         name: updatedName,
         email: updatedEmail,
@@ -70,7 +70,7 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
           user._id === updatedUser._id ? updatedUser : user
         )
       );
-      setEditingUser(null); // Ferme le formulaire après mise à jour
+      setEditingUser(null); 
     } catch (error) {
       setError("Erreur lors de la mise à jour de l'utilisateur.");
       console.log(error);
@@ -131,8 +131,6 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
           )}
         </tbody>
       </table>
-
-      {/* Formulaire d'édition si un utilisateur est sélectionné */}
       {editingUser && (
         <div className="mt-4 p-4 bg-white/10 rounded-lg">
           <h3 className="text-teal-200 mb-4">Modifier l'utilisateur</h3>
@@ -142,6 +140,15 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
               type="text"
               value={updatedName}
               onChange={(e) => setUpdatedName(e.target.value)}
+              className="p-2 rounded bg-white/10 w-full"
+            />
+          </div>
+          <div className="mb-2">
+            <label className="block text-white">Rôle</label>
+            <input
+              type="text"
+              value={updatedRole}
+              onChange={(e) => setUpdatedEmail(e.target.value)}
               className="p-2 rounded bg-white/10 w-full"
             />
           </div>
