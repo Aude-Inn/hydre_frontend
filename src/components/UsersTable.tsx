@@ -58,17 +58,19 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
       return;
     }
     try {
-      const updatedUser = await updateUser(editingUser!._id, {
-      name: updatedName,
-      email: updatedEmail,
-      role: updatedRole,
+      // Envoi des données mises à jour
+      const updatedUser = await updateUser({
+        name: updatedName,
+        email: updatedEmail,
+        role: updatedRole,
       });
+
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user._id === updatedUser._id ? updatedUser : user
         )
       );
-      setEditingUser(null); 
+      setEditingUser(null); // Ferme le formulaire après mise à jour
     } catch (error) {
       setError("Erreur lors de la mise à jour de l'utilisateur.");
       console.log(error);

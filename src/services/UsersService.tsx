@@ -76,7 +76,6 @@ export async function loginUser(
 }
 
 export async function updateUser(
-  id: string,
   updatedData: { name: string; email: string; role: string }
 ): Promise<User> {
   const token = localStorage.getItem("token");
@@ -91,7 +90,9 @@ export async function updateUser(
   };
 
   try {
-    const response = await axios.put(`${urlDelete}${id}`, updatedData, config);
+    // Change l'URL ici pour correspondre à la route PUT du backend
+    const response = await axios.put(`${API_URL}/updateUser`, updatedData, config);
+
     if (response.status === 200 && response.data.user) {
       console.log("Utilisateur mis à jour:", response.data.user);
       return response.data.user; 
