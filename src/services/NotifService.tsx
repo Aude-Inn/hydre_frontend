@@ -16,7 +16,7 @@ export const fetchValidNotifications = async (): Promise<GameNotificationData[]>
  
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  const response = await axios.get<GameNotificationData[]>(`${API_URL}/api/notifications`);
+  const response = await axios.get<GameNotificationData[]>(`${API_URL}/api/notifs`);
 
   const validNotifications = response.data.filter(
     (notif) => notif.name && notif.addedAt
