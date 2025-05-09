@@ -28,7 +28,7 @@ export function FormSignUp() {
 
     try {
       
-      const response = await axios.post(`${API_URL}/register`, {
+      const response = await axios.post(`${API_URL}/api/auth/register`, {
         name,
         email,
         password,
