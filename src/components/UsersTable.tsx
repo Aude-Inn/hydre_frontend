@@ -147,7 +147,7 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
             <label className="block text-white">Rôle</label>
             <input
               type="text"
-              value={updatedRole}
+              value={updatedEmail}
               onChange={(e) => setUpdatedEmail(e.target.value)}
               className="p-2 rounded bg-white/10 w-full"
             />
