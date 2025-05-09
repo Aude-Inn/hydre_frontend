@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { User } from "../types/user.type";
-import { deleteUser, getUsers } from "../services/UsersService";
+import { deleteUser, getUsers, updateUser } from "../services/UsersService";
 
 interface UsersTableProps {
   isDashboard: boolean;
@@ -10,6 +10,10 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [updatedName, setUpdatedName] = useState<string>("");
+  const [updatedEmail,  setUpdatedEmail] = useState<string>("");
+  const [updatedRole, setUpdatedRole] = useState<string>("");
 
   useEffect(() => {
     const axiosUsers = async () => {
@@ -42,7 +46,33 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
   };
 
   const handleEdit = (user: User) => {
-    console.log("Modifier l'utilisateur", user);
+    setEditingUser(user);
+    setUpdatedName(user.name);
+    setUpdatedEmail(user.email)
+    setUpdatedRole(user.role);
+  };
+
+  const handleUpdate = async () => {
+    if (!updatedName || !updatedRole) {
+      setError("Tous les champs sont obligatoires.");
+      return;
+    }
+    try {
+      const updatedUser = await updateUser(editingUser!._id, {
+      name: updatedName,
+      email: updatedEmail,
+      role: updatedRole,
+      });
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user._id === updatedUser._id ? updatedUser : user
+        )
+      );
+      setEditingUser(null); 
+    } catch (error) {
+      setError("Erreur lors de la mise à jour de l'utilisateur.");
+      console.log(error);
+    }
   };
 
   if (loading) return <div>Chargement en cours...</div>;
@@ -99,6 +129,37 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
           )}
         </tbody>
       </table>
+
+      {/* Formulaire d'édition si un utilisateur est sélectionné */}
+      {editingUser && (
+        <div className="mt-4 p-4 bg-white/10 rounded-lg">
+          <h3 className="text-teal-200 mb-4">Modifier l'utilisateur</h3>
+          <div className="mb-2">
+            <label className="block text-white">Nom</label>
+            <input
+              type="text"
+              value={updatedName}
+              onChange={(e) => setUpdatedName(e.target.value)}
+              className="p-2 rounded bg-white/10 w-full"
+            />
+          </div>
+          <div className="mb-2">
+            <label className="block text-white">Rôle</label>
+            <input
+              type="text"
+              value={updatedRole}
+              onChange={(e) => setUpdatedRole(e.target.value)}
+              className="p-2 rounded bg-white/10 w-full"
+            />
+          </div>
+          <button
+            onClick={handleUpdate}
+            className="bg-teal-400 hover:bg-teal-500 text-white p-2 rounded-full mt-4"
+          >
+            Mettre à jour
+          </button>
+        </div>
+      )}
     </div>
   );
 }

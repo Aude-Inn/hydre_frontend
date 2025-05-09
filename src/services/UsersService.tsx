@@ -74,3 +74,32 @@ export async function loginUser(
     throw new Error("Échec de la connexion.");
   }
 }
+
+export async function updateUser(
+  id: string,
+  updatedData: { name: string; email: string; role: string }
+): Promise<User> {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("Token manquant, utilisateur non autorisé.");
+  }
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const response = await axios.put(`${urlDelete}${id}`, updatedData, config);
+    if (response.status === 200 && response.data.user) {
+      console.log("Utilisateur mis à jour:", response.data.user);
+      return response.data.user; 
+    } else {
+      throw new Error("Échec de la mise à jour de l'utilisateur.");
+    }
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de l'utilisateur:", error);
+    throw error;
+  }
+}
