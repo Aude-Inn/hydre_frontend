@@ -5,10 +5,10 @@ import { User } from "../types/user.type";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 
-const url = `${API_URL}/allUsers`;
-const urlDelete = `${API_URL}/user/`;
-const urlLogin = `${API_URL}/login`;
-const urlUpdate =`${API_URL}/updateUser`;
+const url = `${API_URL}/api/users/allUsers`;
+const urlDelete = `${API_URL}/api/users/user/`
+const urlLogin = `${API_URL}/api/auth/login`;
+const urlUpdate = `${API_URL}/api/users/updateUser`;
 
 export async function getUsers(): Promise<User[]> {
   const token = localStorage.getItem("token");

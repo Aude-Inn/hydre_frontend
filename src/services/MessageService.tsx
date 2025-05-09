@@ -1,7 +1,7 @@
 import axios from "axios";
 import { MessageData } from "../types/socket.types"; 
 
-const API_URL = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/messages`; 
+const API_URL = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/messages`;
 
 // delete
 export const deleteMessage = async (messageId: string): Promise<void> => {
