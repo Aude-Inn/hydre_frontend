@@ -5,9 +5,9 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 
 const urlGetAll = `${API_URL}/api/users`;
-const urlDelete = `${API_URL}/api/users/`; 
 const urlLogin = `${API_URL}/api/auth/login`;
 const urlUpdate = `${API_URL}/api/users/me`;
+const urlDelete = `${API_URL}/api/users/`; 
 
 function getAuthConfig() {
   const token = localStorage.getItem("token");

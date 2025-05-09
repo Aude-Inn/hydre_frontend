@@ -144,7 +144,7 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
             />
           </div>
           <div className="mb-2">
-            <label className="block text-white">Rôle</label>
+            <label className="block text-white">Email</label>
             <input
               type="text"
               value={updatedEmail}
