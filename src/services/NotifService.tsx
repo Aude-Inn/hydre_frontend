@@ -4,7 +4,7 @@ import { API_ENDPOINTS } from "../utils/apiConfig";
 
 // Supprimer les notif 5j
 export const cleanExpiredNotifications = (notifications: GameNotificationData[]): GameNotificationData[] => {
-  const fiveDaysAgo = Date.now() - 5 * 24 * 60 * 60 * 1000; // 5 jours en millisecondes
+  const fiveDaysAgo = Date.now() - 5 * 24 * 60 * 60 * 1000; 
   return notifications.filter((notification) => {
     const notificationTime = new Date(notification.addedAt).getTime();
     return notificationTime >= fiveDaysAgo;
