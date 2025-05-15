@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { resetPassword } from '../services/AuthService';
+import { isValidPassword } from "../utils/validators";
 
 export function ResetPassword(): JSX.Element {
   const { token } = useParams<{ token: string }>();
@@ -12,50 +13,51 @@ export function ResetPassword(): JSX.Element {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage('');
-    setError('');
+  e.preventDefault();
+  setLoading(true);
+  setMessage('');
+  setError('');
 
-    if (!password || !confirmPassword) {
-      setError('Veuillez remplir tous les champs');
-      setLoading(false);
-      return;
+  if (!password || !confirmPassword) {
+    setError('Veuillez remplir tous les champs');
+    setLoading(false);
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    setError('Les mots de passe ne correspondent pas');
+    setLoading(false);
+    return;
+  }
+
+  if (!isValidPassword(password)) {
+    setError(
+      'Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.'
+    );
+    setLoading(false);
+    return;
+  }
+
+  try {
+    if (!token) throw new Error('Token manquant');
+
+    const response = await resetPassword(token, password);
+    setMessage(response.message);
+
+    setTimeout(() => navigate('/login'), 3000);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      setError(err.message);
+    } else if (typeof err === 'object' && err !== null && 'response' in err) {
+      const axiosError = err as { response?: { data?: { message?: string } } };
+      setError(axiosError.response?.data?.message || 'Une erreur est survenue');
+    } else {
+      setError('Une erreur inconnue est survenue');
     }
-
-    if (password !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas');
-      setLoading(false);
-      return;
-    }
-
-    if (password.length < 6) {
-      setError('Le mot de passe doit contenir au moins 6 caractères');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      if (!token) throw new Error('Token manquant');
-
-      
-      const response = await resetPassword(token, password);
-      setMessage(response.message);
-
-      setTimeout(() => navigate('/login'), 3000);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else if (typeof err === 'object' && err !== null && 'response' in err) {
-        const axiosError = err as { response?: { data?: { message?: string } } };
-        setError(axiosError.response?.data?.message || 'Une erreur est survenue');
-      } else {
-        setError('Une erreur inconnue est survenue');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">

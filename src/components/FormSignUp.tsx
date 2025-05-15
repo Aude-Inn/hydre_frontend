@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { isValidPassword } from "../utils/validators";
 
 export function FormSignUp() {
   const [name, setName] = useState<string>("");
@@ -13,47 +14,51 @@ export function FormSignUp() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
 
-    if (!email || !password || !name) {
-      setError("Email, mot de passe et nom sont requis");
-      setLoading(false);
-      return;
-    }
+  if (!email || !password || !name) {
+    setError("Email, mot de passe et nom sont requis");
+    setLoading(false);
+    return;
+  }
 
-    
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"; 
+  if (!isValidPassword(password)) {
+    setError(
+      "Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."
+    );
+    setLoading(false);
+    return;
+  }
 
-    try {
-      
-      const response = await axios.post(`${API_URL}/api/auth/register`, {
-        name,
-        email,
-        password,
-      });
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-      
-      localStorage.setItem("token", response.data.token);
-      setSuccess(true);
-      setLoading(false);
+  try {
+    const response = await axios.post(`${API_URL}/api/auth/register`, {
+      name,
+      email,
+      password,
+    });
 
-      
-      setTimeout(() => {
-        navigate("/Profile");
-      }, 3000);
-    } catch (error) {
-      setLoading(false);
-      if (error instanceof AxiosError && error.response) {
-        if (error.response.status === 400) {
-          setError("Utilisateur déjà existant");
-        } else if (error.response.status === 500) {
-          setError("Erreur serveur. Veuillez réessayer.");
-        }
+    localStorage.setItem("token", response.data.token);
+    setSuccess(true);
+    setLoading(false);
+
+    setTimeout(() => {
+      navigate("/Profile");
+    }, 3000);
+  } catch (error) {
+    setLoading(false);
+    if (error instanceof AxiosError && error.response) {
+      if (error.response.status === 400) {
+        setError("Utilisateur déjà existant");
+      } else if (error.response.status === 500) {
+        setError("Erreur serveur. Veuillez réessayer.");
       }
     }
-  };
+  }
+};
 
   return (
     <div className="w-full max-w-md bg-black/20 backdrop-blur-sm border border-teal-400/20 shadow-lg rounded-2xl p-6 sm:p-10 transition-all duration-500">
