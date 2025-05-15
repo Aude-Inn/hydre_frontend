@@ -2,12 +2,12 @@ import axios from "axios";
 import { GameNotificationData } from "../types/socket.types";
 import { API_ENDPOINTS } from "../utils/apiConfig";
 
-// Supprimer les notif 7j
+// Supprimer les notif 5j
 export const cleanExpiredNotifications = (notifications: GameNotificationData[]): GameNotificationData[] => {
-  const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  const fiveDaysAgo = Date.now() - 5 * 24 * 60 * 60 * 1000; // 5 jours en millisecondes
   return notifications.filter((notification) => {
     const notificationTime = new Date(notification.addedAt).getTime();
-    return notificationTime >= oneWeekAgo;
+    return notificationTime >= fiveDaysAgo;
   });
 };
 
