@@ -1,13 +1,6 @@
 import axios from "axios";
+import { API_ENDPOINTS } from "../utils/apiConfig";
 import { User } from "../types/user.type";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-
-const urlGetAll = `${API_URL}/api/users`;
-const urlLogin = `${API_URL}/api/auth/login`;
-const urlUpdateById = (id: string) => `${API_URL}/api/users/${id}`;
-const urlDelete = `${API_URL}/api/users/`; 
 
 function getAuthConfig() {
   const token = localStorage.getItem("token");
@@ -22,7 +15,7 @@ function getAuthConfig() {
 export async function getUsers(): Promise<User[]> {
   try {
     const config = getAuthConfig();
-    const response = await axios.get(urlGetAll, config);
+    const response = await axios.get(API_ENDPOINTS.users, config);
     if (Array.isArray(response.data.users)) {
       return response.data.users;
     } else {
@@ -37,7 +30,7 @@ export async function getUsers(): Promise<User[]> {
 export async function deleteUser(id: string): Promise<void> {
   try {
     const config = getAuthConfig();
-    const response = await axios.delete(`${urlDelete}${id}`, config);
+    const response = await axios.delete(API_ENDPOINTS.userById(id), config);
     if (response.status === 200) {
       console.log("Utilisateur supprimé:", id);
     } else {
@@ -54,7 +47,7 @@ export async function loginUser(
   password: string
 ): Promise<{ token: string; user: User }> {
   try {
-    const response = await axios.post(urlLogin, { email, password });
+    const response = await axios.post(API_ENDPOINTS.authLogin, { email, password });
     const { token, user } = response.data;
     if (!token || !user) {
       throw new Error("Les données de connexion sont incorrectes.");
@@ -71,11 +64,16 @@ export async function updateUserById(
   id: string,
   updatedData: { name: string; email: string; role: string }
 ): Promise<User> {
-  const config = getAuthConfig();
-  const response = await axios.put(urlUpdateById(id), updatedData, config);
-  if (response.status === 200 && response.data.user) {
-    return response.data.user;
-  } else {
-    throw new Error("Échec de la mise à jour de l'utilisateur.");
+  try {
+    const config = getAuthConfig();
+    const response = await axios.put(API_ENDPOINTS.userById(id), updatedData, config);
+    if (response.status === 200 && response.data.user) {
+      return response.data.user;
+    } else {
+      throw new Error("Échec de la mise à jour de l'utilisateur.");
+    }
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de l'utilisateur :", error);
+    throw error;
   }
 }
