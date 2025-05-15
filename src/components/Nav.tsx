@@ -17,6 +17,9 @@ export function Nav() {
         <li>
           <Link to="/" className="hover:text-teal-300 transition" onClick={closeMenu}>Home</Link>
         </li>
+            <li>
+              <Link to="/game-lists" className="hover:text-teal-300 transition" onClick={closeMenu}>Games</Link>
+            </li>
 
         {!user && (
           <>
@@ -34,9 +37,6 @@ export function Nav() {
             <li>
               <Link to="/profile" className="hover:text-teal-300 transition" onClick={closeMenu}>You</Link>
             </li>
-            <li>
-              <Link to="/game-lists" className="hover:text-teal-300 transition" onClick={closeMenu}>Games</Link>
-            </li>
           </>
         )}
 
@@ -44,9 +44,6 @@ export function Nav() {
           <>
             <li>
               <Link to="/dashboard" className="hover:text-teal-300 transition" onClick={closeMenu}>Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/game-lists" className="hover:text-teal-300 transition" onClick={closeMenu}>Games</Link>
             </li>
             <li>
               <Link to="/profile" className="hover:text-teal-300 transition" onClick={closeMenu}>You</Link>

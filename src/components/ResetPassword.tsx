@@ -60,69 +60,71 @@ export function ResetPassword(): JSX.Element {
 };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-pink-500">
-          Réinitialisation du mot de passe
-        </h2>
+  <div className="flex flex-col items-center justify-center min-h-screen bg-black/80">
+    <div className="w-full sm:max-w-md mx-auto p-6 sm:p-8 bg-black/20 backdrop-blur-sm rounded-2xl shadow-lg border border-teal-400/20">
+      <h2 className="text-xl sm:text-2xl font-semibold text-center mb-6 text-teal-300 uppercase tracking-wide">
+        Réinitialisation
+      </h2>
 
-        {message && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 text-center">
-            {message}
-            <p className="text-sm mt-2 text-green-600">
-              Vous allez être redirigé vers la page de connexion...
-            </p>
+      {message && (
+        <div className="bg-green-100/10 border border-green-300 text-green-300 px-4 py-3 rounded relative mb-4 text-center text-sm">
+          {message}
+          <p className="mt-2 text-green-400">
+            Vous allez être redirigé vers la page de connexion...
+          </p>
+        </div>
+      )}
+
+      {error && (
+        <div className="bg-red-100/10 border border-red-300 text-red-300 px-4 py-3 rounded relative mb-4 text-center text-sm">
+          {error}
+        </div>
+      )}
+
+      {!message && (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-pink-200">
+              Nouveau mot de passe
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Entrez votre nouveau mot de passe"
+              required
+              className="w-full px-4 py-2 mt-2 bg-black/30 text-white placeholder-gray-400 border border-purple-400/30 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"
+            />
           </div>
-        )}
 
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-center">
-            {error}
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-pink-200">
+              Confirmer le mot de passe
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirmez votre mot de passe"
+              required
+              className="w-full px-4 py-2 mt-2 bg-black/30 text-white placeholder-gray-400 border border-purple-400/30 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
+            />
           </div>
-        )}
 
-        {!message && (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="form-group">
-              <label htmlFor="password" className="block text-sm font-medium text-pink-500 mb-1">
-                Nouveau mot de passe
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Entrez votre nouveau mot de passe"
-                required
-                className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-pink-100 focus:border-pink-300"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-pink-500 mb-1">
-                Confirmer le mot de passe
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirmez votre nouveau mot de passe"
-                required
-                className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-pink-100 focus:border-pink-300"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition disabled:opacity-50"
-            >
-              {loading ? 'Traitement en cours...' : 'Réinitialiser mon mot de passe'}
-            </button>
-          </form>
-        )}
-      </div>
+          <button
+            type="submit"
+            className={`w-full py-2 px-4 bg-gradient-to-r from-pink-500 via-purple-500 to-teal-400 text-white font-semibold rounded-md hover:opacity-90 transition-all duration-200 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={loading}
+          >
+            {loading ? "Traitement en cours..." : "Réinitialiser mon mot de passe"}
+          </button>
+        </form>
+      )}
     </div>
-  );
+  </div>
+);
 }
