@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate  } from "react-router-dom";
 import { getGameById } from "../services/GameService";
 import { Game } from "../types/game.type";
 import { formatDateForInput } from "../utils/formatDate";
 
 export function GameDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [game, setGame] = useState<Game | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -59,6 +60,12 @@ export function GameDetails() {
           >
             Voir sur Steam
           </a>
+             <button
+            onClick={() => navigate("/game-lists")}
+            className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+          >
+            Retour à la liste des jeux
+          </button>
         </div>
       </div>
     </div>
