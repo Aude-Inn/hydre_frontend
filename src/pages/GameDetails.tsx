@@ -51,22 +51,23 @@ export function GameDetails() {
           <p><span className="font-semibold text-teal-300">Sortie :</span> {formatDateForInput(new Date(game.releaseDate))}</p>
         </div>
 
-        <div className="text-center mt-4">
-          <a
-            href={game.steamLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg transition"
-          >
-            Voir sur Steam
-          </a>
-             <button
-            onClick={() => navigate("/game-lists")}
-            className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition"
-          >
-            Retour à la liste des jeux
-          </button>
-        </div>
+        <div className="text-center mt-4 space-y-4">
+  <a
+    href={game.steamLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+  >
+    Voir sur Steam
+  </a>
+
+  <button
+    onClick={() => navigate("/game-lists")}
+    className="block bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+  >
+    Retour à la liste des jeux
+  </button>
+</div>
       </div>
     </div>
   );
