@@ -30,11 +30,16 @@ export const FormAddGame = ({
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (game) {
-      setGameData(game);
-    }
-  }, [game]);
+ useEffect(() => {
+  if (game) {
+    setGameData({
+      ...game,
+      releaseDate: game.releaseDate
+        ? formatDateForInput(new Date(game.releaseDate))
+        : formatDateForInput(new Date()),
+    });
+  }
+}, [game]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
