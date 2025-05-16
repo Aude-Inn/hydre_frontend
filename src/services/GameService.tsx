@@ -22,7 +22,7 @@ function getAuthConfig() {
       };
 }
 
-// All Id
+// All game
 export async function getGame(): Promise<Game[]> {
   try {
     const response = await axios.get(BASE_URL);
