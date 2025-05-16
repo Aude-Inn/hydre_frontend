@@ -15,9 +15,9 @@ export function GameLists() {
   <SearchBar />
 </div>
      
-        <div className="bg-black/20 backdrop-blur-sm border border-teal-400/20 shadow-lg rounded-3xl p-4 sm:p-8 overflow-x-auto">
-          <GamesTable isDashboard={false} />
-        </div>
+        <div className="relative bg-black/20 backdrop-blur-sm border border-teal-400/20 shadow-lg rounded-3xl p-4 sm:p-8 overflow-visible">
+  <GamesTable isDashboard={false} />
+</div>
       </div>
     </div>
   );
