@@ -72,3 +72,5 @@ export function SearchBar({
     </div>
   );
 }
+
+// usenavigate ?
