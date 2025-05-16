@@ -108,7 +108,7 @@ export function GamesTable({ isDashboard }: GamesTableProps) {
       )}
 
       {!isAdding && (
-        <div className="relative overflow-visible rounded-lg border border-white/10">
+        <div className="overflow-x-auto rounded-lg border border-white/10">
           <table className="min-w-[800px] w-full bg-black/10 text-white rounded-lg text-sm md:text-base">
             <thead className="bg-white/10 text-teal-200">
               <tr>
