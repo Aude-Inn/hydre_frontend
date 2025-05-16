@@ -33,7 +33,8 @@ export async function getGame(): Promise<Game[]> {
   }
 }
 
-// Id game
+//Game by Id
+ 
 export async function getGameById(id: string): Promise<Game> {
   try {
     const response = await axios.get(`${BASE_URL}/${id}`);
@@ -78,3 +79,19 @@ export async function deleteGame(id: string): Promise<void> {
     throw error;
   }
 }
+
+// Filtre Search
+export async function searchGames(query: string): Promise<Game[]> {
+  try {
+    const response = await axios.get(BASE_URL, {
+      params: { search: query }
+    });
+    console.log("API response data:", response.data);
+    return response.data; 
+  } catch (error) {
+    console.error("Erreur recherche jeux :", error);
+    throw error;
+  }
+}
+
+

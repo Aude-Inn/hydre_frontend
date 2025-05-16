@@ -12,7 +12,7 @@ function getAuthConfig() {
   };
 }
 
-export async function getUsers(): Promise<User[]> {
+export async function getAllUsers(): Promise<User[]> {
   try {
     const config = getAuthConfig();
     const response = await axios.get(API_ENDPOINTS.users, config);
@@ -23,6 +23,22 @@ export async function getUsers(): Promise<User[]> {
     }
   } catch (error) {
     console.error("Erreur lors de la récupération des utilisateurs:", error);
+    throw error;
+  }
+}
+
+export async function getUserById(id: string): Promise<User> {
+  try {
+    const config = getAuthConfig();
+    const response = await axios.get(API_ENDPOINTS.userById(id), config);
+    
+    if (!response.data.user) {
+      throw new Error("Utilisateur non trouvé.");
+    }
+
+    return response.data.user;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur :", error);
     throw error;
   }
 }
