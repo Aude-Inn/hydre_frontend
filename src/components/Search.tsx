@@ -2,48 +2,62 @@ import { useState, useEffect } from "react";
 import { searchGames } from "../services/GameService";
 import { Game } from "../types/game.type";
 
-export function SearchBar({ className }: { className?: string }) {
+export function SearchBar({
+  className,
+  onResults,
+}: {
+  className?: string;
+  onResults?: (results: Game[]) => void;
+}) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<Game[]>([]);
 
   useEffect(() => {
-  if (query.length === 0) {
-    setSuggestions([]);
-    return;
-  }
+    if (query.length === 0) {
+      setSuggestions([]);
+      onResults?.([]); // notifier liste vide
+      return;
+    }
 
-  console.log("Query actuelle :", query); 
+    const delayDebounceFn = setTimeout(() => {
+      searchGames(query)
+        .then((games) => {
+          setSuggestions(games || []);
+          onResults?.(games || []);
+        })
+        .catch((err) => {
+          console.error("Erreur recherche jeux :", err);
+          setSuggestions([]);
+          onResults?.([]);
+        });
+    }, 300);
 
-  const delayDebounceFn = setTimeout(() => {
-    searchGames(query)
-      .then((games) => {
-        console.log("Résultat filtré :", games); 
-        setSuggestions(games || []);
-      })
-      .catch((err) => {
-        console.error("Erreur recherche jeux :", err);
-        setSuggestions([]);
-      });
-  }, 300);
-
-  return () => clearTimeout(delayDebounceFn);
-}, [query]);
+    return () => clearTimeout(delayDebounceFn);
+  }, [query, onResults]);
 
   return (
-    <div className={className}>
+    <div className={`relative ${className}`}>
       <input
         type="text"
         value={query}
-        placeholder="Recherche un jeu..."
+        placeholder="🔍 Recherche un jeu..."
         onChange={(e) => setQuery(e.target.value)}
+        className="w-full px-4 py-2 rounded-full bg-black/20 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
       />
-      <ul>
-        {suggestions.length > 0 ? (
-          suggestions.map((game) => <li key={game._id}>{game.name}</li>)
-        ) : (
-          query.length > 0 && <li>Aucun résultat</li>
-        )}
-      </ul>
+      {query.length > 0 && (
+        <ul className="absolute z-10 mt-2 w-full bg-black/90 rounded-lg border border-white/10 shadow-lg max-h-60 overflow-y-auto text-white">
+          {suggestions.length > 0 ? (
+            suggestions.map((game) => (
+              <li key={game._id} className="px-4 py-2 hover:bg-white/10 cursor-pointer">
+                {game.name}
+              </li>
+            ))
+          ) : (
+            <li className="px-4 py-2 text-white/50">Aucun résultat</li>
+          )}
+        </ul>
+      )}
     </div>
   );
 }
+
