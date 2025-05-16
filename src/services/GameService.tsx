@@ -83,9 +83,7 @@ export async function deleteGame(id: string): Promise<void> {
 // Filtre Search
 export async function searchGames(query: string): Promise<Game[]> {
   try {
-    const response = await axios.get(BASE_URL, {
-      params: { search: query }
-    });
+    const response = await axios.get(`${BASE_URL}/search`, { params: { search: query } });
     console.log("API response data:", response.data);
     return response.data; 
   } catch (error) {
