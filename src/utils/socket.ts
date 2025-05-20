@@ -42,7 +42,7 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_URL
   reconnectionDelay: 1000,
 
   
-  auth: {
+ query: {
     userId: getUserId() || "", 
   },
 });
