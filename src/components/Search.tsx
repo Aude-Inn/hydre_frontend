@@ -54,23 +54,24 @@ export function SearchBar({
   />
 
   {query.length > 0 && (
-    <ul className="absolute top-full left-0 w-full mt-2 bg-black/90 rounded-lg border border-white/10 shadow-lg max-h-32 overflow-y-auto text-white z-50">
-      {suggestions.length > 0 ? (
-        suggestions.map((game) => (
-          <li
-            key={game._id}
-            onClick={() => handleSelect(game._id)}
-            className="px-4 py-2 hover:bg-white/10 cursor-pointer transition text-sm"
-          >
-            {game.name}
-          </li>
-        ))
-      ) : (
-        <li className="px-4 py-2 text-white/50 text-sm">
-          Il n'est probablement pas encore dans la base,<br />n'hésite pas à m'écrire !
-        </li>
-      )}
-    </ul>
+   <ul className="absolute top-full left-0 w-full mt-2 bg-black/20 backdrop-blur-sm rounded-3xl border border-white/20 shadow-lg max-h-32 overflow-y-auto text-white z-50">
+  {suggestions.length > 0 ? (
+    suggestions.map((game) => (
+      <li
+        key={game._id}
+        onClick={() => handleSelect(game._id)}
+        className="px-4 py-2 hover:bg-white/10 cursor-pointer transition text-sm rounded-2xl"
+      >
+        {game.name}
+      </li>
+    ))
+  ) : (
+    <li className="px-4 py-2 text-white/50 text-sm">
+      Il n'est probablement pas encore dans la base,<br />n'hésite pas à m'écrire !
+    </li>
+  )}
+</ul>
+
   )}
 </div>
 

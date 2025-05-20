@@ -8,7 +8,7 @@ export const fetchValidNotifications = async (): Promise<GameNotificationData[]>
   try {
     const response = await axios.get<GameNotificationData[]>(API_ENDPOINTS.notifs);
     const validNotifications = response.data.filter(
-      (notif) => notif.name && notif.addedAt
+      (notif) => notif.name && notif.timestamp
     );
 
     return validNotifications.slice(0, 5); 

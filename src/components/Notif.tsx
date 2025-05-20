@@ -27,9 +27,9 @@ export function Notifications() {
 
     (async () => {
       try {
-        const fetched = await fetchValidNotifications();
+        const notificationsFromApi = await fetchValidNotifications();
         if (isMounted) {
-          setNotifications(fetched);
+          setNotifications(notificationsFromApi);
         }
       } catch (error) {
         console.error("[Client] Erreur lors de la récupération des notifications :", error);
@@ -37,8 +37,8 @@ export function Notifications() {
     })();
 
     const handleGameNotification = (data: GameNotificationData) => {
-      if (data?.name && data?.addedAt) {
-        setNotifications((prev) => [data, ...prev].slice(0, 10));
+      if (data?.name && data?.timestamp) {
+        setNotifications((prev) => [data, ...prev]);
 
         toast.info(`💜 Nouveau jeu ajouté : ${data.name}`);
       }
@@ -53,23 +53,19 @@ export function Notifications() {
   }, []);
 
   return (
-   <div ref={ref} className="relative">
-  <button
-    onClick={() => setIsOpen((prev) => !prev)}
-    className="relative z-50 p-2 text-pink-400 hover:text-pink-500 transition"
-    aria-label="Afficher les notifications"
-  >
-    <Heart className="w-6 h-6" />
-  </button>
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="relative z-50 p-2 text-pink-400 hover:text-pink-500 transition"
+        aria-label="Afficher les notifications"
+      >
+        <Heart className="w-6 h-6" />
+      </button>
 
-  {isOpen && (
-    <div className="absolute right-0 mt-2 w-72 max-w-full sm:w-80 bg-white border border-gray-200 rounded-2xl shadow-lg z-40 overflow-hidden">
-      <NotificationsDropdown notifications={notifications} />
+      {isOpen && <NotificationsDropdown notifications={notifications} />}
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
-  )}
-
-  <ToastContainer position="top-right" autoClose={3000} />
-</div>
   );
 }
 
