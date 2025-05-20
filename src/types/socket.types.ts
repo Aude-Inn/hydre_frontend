@@ -9,4 +9,7 @@ export interface GameNotificationData {
     userName: string;
     text: string;
     timestamp: string;
+    fromAdmin?: boolean;
+    replyTo?: string | null;
+    toUserId?: string | null;
   }

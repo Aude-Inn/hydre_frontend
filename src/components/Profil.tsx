@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import socket from "../utils/socket";
+import { MessageData } from "../types/socket.types";
 
 export function Profil() {
   const { user, logout, updateUserName } = useAuth();
@@ -11,12 +12,28 @@ export function Profil() {
   const [newName, setNewName] = useState(user?.name || "");
   const [message, setMessage] = useState("");
   const [messageSent, setMessageSent] = useState(false);
+  const [adminReplies, setAdminReplies] = useState<MessageData[]>([]);
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
   }, [user, navigate]);
+
+  useEffect(() => {
+    const handleMessage = (msg: MessageData) => {
+      if (msg.userId === user?._id && msg.fromAdmin) {
+        setAdminReplies((prev) => [msg, ...prev]);
+      }
+    };
+
+    socket.on("receive_message", handleMessage);
+    socket.emit("request_history");
+
+    return () => {
+      socket.off("receive_message", handleMessage);
+    };
+  }, [user]);
 
   const handleSaveName = () => {
     if (newName.trim() && newName !== user?.name) {
@@ -90,7 +107,9 @@ export function Profil() {
 
       {user.role === "user" && (
         <div className="mt-6">
-          <h3 className="text-xl font-semibold mb-2">Tu veux voir un jeu ajouté sur Hydre ? Envoie-moi ta suggestion !</h3>
+          <h3 className="text-xl font-semibold mb-2">
+            Tu veux voir un jeu ajouté sur Hydre ? Envoie-moi ta suggestion !
+          </h3>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -114,6 +133,27 @@ export function Profil() {
               🎮 Message envoyé !
             </div>
           )}
+        </div>
+      )}
+
+      {adminReplies.length > 0 && (
+        <div className="mt-6 border-t border-white/10 pt-4">
+          <h3 className="text-lg font-semibold mb-2 text-green-300">
+            Réponses de l'admin 🛡️
+          </h3>
+          <ul className="space-y-2">
+            {adminReplies.map((msg) => (
+              <li
+                key={msg._id}
+                className="bg-white/5 p-2 rounded-md border border-white/10"
+              >
+                <p className="text-white">{msg.text}</p>
+                <p className="text-xs text-gray-400">
+                  {new Date(msg.timestamp).toLocaleString()}
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
@@ -145,4 +185,3 @@ export function Profil() {
     </div>
   );
 }
-

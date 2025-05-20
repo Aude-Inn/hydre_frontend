@@ -8,16 +8,22 @@ export function AdminDashboardMessage() {
 
   useEffect(() => {
     const handleHistory = (history: MessageData[]) => {
-      console.log("[Client] Historique reçu :", history);
-      setMessages(history);
+      console.log("[AdminDashboard] Message history reçu:", history);
+      setMessages(
+        history.sort(
+          (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        )
+      );
     };
 
     const handleNewMessage = (data: MessageData) => {
-      console.log("[Client] Nouveau message reçu :", data);
+      console.log("[AdminDashboard] Nouveau message reçu:", data);
       setMessages((prev) => [data, ...prev]);
     };
 
     socket.emit("request_history");
+    console.log("[AdminDashboard] Émission 'request_history'");
+
     socket.on("message_history", handleHistory);
     socket.on("receive_message", handleNewMessage);
 
@@ -30,9 +36,25 @@ export function AdminDashboardMessage() {
   const handleDelete = async (messageId: string) => {
     try {
       await deleteMessage(messageId);
+      console.log(`[AdminDashboard] Message supprimé: ${messageId}`);
       setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
     } catch (error) {
-      console.error("Erreur suppression :", error);
+      console.error("[AdminDashboard] Erreur suppression :", error);
+    }
+  };
+
+  const handleReply = (msg: MessageData) => {
+    const reply = prompt(`Répondre à ${msg.userName || `#${msg.userId}`}`, "");
+    if (reply && reply.trim()) {
+      const replyData = {
+        userId: msg.userId,
+        text: reply,
+        replyTo: msg._id,
+      };
+      console.log("[AdminDashboard] Envoi de la réponse via 'admin_reply':", replyData);
+      socket.emit("admin_reply", replyData);
+    } else {
+      console.log("[AdminDashboard] Réponse annulée ou vide");
     }
   };
 
@@ -54,12 +76,21 @@ export function AdminDashboardMessage() {
                 key={msg._id}
                 className="border-b border-white/10 hover:bg-white/5 transition"
               >
-                <td className="py-2 px-4 font-semibold">{msg.userName || `#${msg.userId}`}</td>
+                <td className="py-2 px-4 font-semibold">
+                  {msg.userName || `#${msg.userId}`}
+                </td>
                 <td className="py-2 px-4">{msg.text}</td>
                 <td className="py-2 px-4 hidden sm:table-cell">
                   {new Date(msg.timestamp).toLocaleString()}
                 </td>
-                <td className="py-2 px-4">
+                <td className="py-2 px-4 flex items-center gap-2">
+                  <button
+                    onClick={() => handleReply(msg)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center transition"
+                    title="Répondre"
+                  >
+                    💬
+                  </button>
                   <button
                     onClick={() => handleDelete(msg._id)}
                     className="bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center transition"

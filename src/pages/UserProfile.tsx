@@ -1,4 +1,6 @@
+import { Messbox } from "../components/BoxMess";
 import { Profil } from "../components/Profil";
+
 
 export function UserProfile() {
   return (
@@ -7,10 +9,12 @@ export function UserProfile() {
         <h1 className="text-2xl sm:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-200 via-purple-200 to-teal-200 mb-6">
           Un espace rien que pour toi 🐲
         </h1>
-        <Profil />
+        <Profil/>
+        <div>
+        <Messbox />
+        </div>
       </div>
     </div>
   );
 }
-
 
