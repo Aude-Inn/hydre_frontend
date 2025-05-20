@@ -54,7 +54,7 @@ export function SearchBar({
   />
 
   {query.length > 0 && (
-    <ul className="absolute top-full left-0 w-full mt-2 bg-black/90 rounded-lg border border-white/10 shadow-lg max-h-36 overflow-y-auto text-white z-50">
+    <ul className="absolute top-full left-0 w-full mt-2 bg-black/90 rounded-lg border border-white/10 shadow-lg max-h-32 overflow-y-auto text-white z-50">
       {suggestions.length > 0 ? (
         suggestions.map((game) => (
           <li
