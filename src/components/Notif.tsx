@@ -1,17 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import socket from "../utils/socket";
 import { GameNotificationData } from "../types/socket.types";
-import { fetchValidNotifications, cleanExpiredNotifications } from "../services/NotifService";
+import { fetchValidNotifications } from "../services/NotifService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Heart } from "lucide-react";
-import { NotificationsDropdown } from "./NotificationsDropdown"; 
+import { NotificationsDropdown } from "./NotificationsDropdown";
 
 export function Notifications() {
   const [notifications, setNotifications] = useState<GameNotificationData[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
-
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -23,15 +22,14 @@ export function Notifications() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  
   useEffect(() => {
     let isMounted = true;
 
     (async () => {
       try {
-        const cleaned = await fetchValidNotifications();
+        const fetched = await fetchValidNotifications();
         if (isMounted) {
-          setNotifications(cleaned);
+          setNotifications(fetched);
         }
       } catch (error) {
         console.error("[Client] Erreur lors de la récupération des notifications :", error);
@@ -40,10 +38,7 @@ export function Notifications() {
 
     const handleGameNotification = (data: GameNotificationData) => {
       if (data?.name && data?.addedAt) {
-        setNotifications((prev) => {
-          const newNotifications = [data, ...prev];
-          return cleanExpiredNotifications(newNotifications).slice(0, 10);
-        });
+        setNotifications((prev) => [data, ...prev].slice(0, 10));
 
         toast.info(`💜 Nouveau jeu ajouté : ${data.name}`);
       }
@@ -58,19 +53,23 @@ export function Notifications() {
   }, []);
 
   return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="relative z-50 p-2 text-pink-400 hover:text-pink-500 transition"
-        aria-label="Afficher les notifications"
-      >
-        <Heart className="w-6 h-6" />
-      </button>
+   <div ref={ref} className="relative">
+  <button
+    onClick={() => setIsOpen((prev) => !prev)}
+    className="relative z-50 p-2 text-pink-400 hover:text-pink-500 transition"
+    aria-label="Afficher les notifications"
+  >
+    <Heart className="w-6 h-6" />
+  </button>
 
-      {isOpen && <NotificationsDropdown notifications={notifications} />}
-
-      <ToastContainer position="top-right" autoClose={3000} />
+  {isOpen && (
+    <div className="absolute right-0 mt-2 w-72 max-w-full sm:w-80 bg-white border border-gray-200 rounded-2xl shadow-lg z-40 overflow-hidden">
+      <NotificationsDropdown notifications={notifications} />
     </div>
+  )}
+
+  <ToastContainer position="top-right" autoClose={3000} />
+</div>
   );
 }
 
