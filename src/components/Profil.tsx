@@ -142,7 +142,8 @@ export function Profil() {
             Réponses de l'admin 🛡️
           </h3>
           <ul className="space-y-2">
-            {adminReplies.map((msg) => (
+            {adminReplies.filter((msg) => msg.fromAdmin)
+                .map((msg) => (
               <li
                 key={msg._id}
                 className="bg-white/5 p-2 rounded-md border border-white/10"
