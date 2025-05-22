@@ -73,7 +73,7 @@ export function AdminDashboardMessage() {
           ) : (
             <tr>
               <td colSpan={4} className="text-center py-4 text-white">
-                Aucun message reçu.
+                Nothing.
               </td>
             </tr>
           )}
