@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import socket from "../utils/socket";
 import { MessageData } from "../types/socket.types";
 import { deleteMessage } from "../utils/socket";
 
-const MessagesList: React.FC = () => {
+function MessagesList() {
   const [messages, setMessages] = useState<MessageData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
