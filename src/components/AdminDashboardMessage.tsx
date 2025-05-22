@@ -7,27 +7,22 @@ export function MessagesList() {
   const [messages, setMessages] = useState<MessageData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+ useEffect(() => {
   socket.emit("request_messages");
-  console.log("Émis request_messages");
 
   socket.on("messages", (msgs) => {
-    console.log("Reçu messages:", msgs);
     setMessages(msgs);
   });
 
   socket.on("newMessage", (msg) => {
-    console.log("Reçu newMessage:", msg);
     setMessages((prev) => [msg, ...prev]);
   });
 
   socket.on("deleteMessage", (id) => {
-    console.log("Reçu deleteMessage:", id);
     setMessages((prev) => prev.filter((msg) => msg._id !== id));
   });
 
   socket.on("error", (msg) => {
-    console.log("Reçu error:", msg);
     setError(msg);
   });
 
@@ -38,6 +33,7 @@ export function MessagesList() {
     socket.off("error");
   };
 }, []);
+
 
   const handleDelete = (id: string) => {
     deleteMessage(id);
