@@ -1,11 +1,10 @@
 import { io, Socket } from "socket.io-client";
 import { GameNotificationData, MessageData } from "../types/socket.types";
 
-const getUserId = () => {
+const getUser = () => {
   const userStr = localStorage.getItem("user");
   try {
-    const user = userStr ? JSON.parse(userStr) : null;
-    return user?._id || null;
+    return userStr ? JSON.parse(userStr) : null;
   } catch {
     return null;
   }
@@ -18,6 +17,7 @@ interface ServerToClientEvents {
   receive_message: (data: MessageData) => void;
   message_history: (data: MessageData[]) => void;
   inbox_messages: (data: MessageData[]) => void;
+   new_reply: (data: MessageData) => void;
 }
 
 interface ClientToServerEvents {
@@ -31,15 +31,18 @@ interface ClientToServerEvents {
   request_inbox: (userId: string) => void;
 }
 
+const user = getUser();
+const userId = user?._id || "";
+const isAdmin = user?.role === "admin" ? "true" : "false";
+
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_URL, {
   transports: ["websocket"],
   autoConnect: true,
   reconnection: true,
-  query: { userId: getUserId() || "" },
+  query: {
+    userId,
+    isAdmin,
+  },
 });
 
 export default socket;
-
-
-
-

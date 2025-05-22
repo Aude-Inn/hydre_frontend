@@ -15,25 +15,24 @@ export function Profil() {
   const userId = user?._id;
 
   useEffect(() => {
-    if (!userId) return;
-    socket.emit("request_history");
+  if (!userId) return;
 
-    const handleHistory = (msgs: MessageData[]) => {
-      setMessages(msgs.filter((msg) => msg.userId === userId));
-    };
+  const handleInbox = (msgs: MessageData[]) => {
+    setMessages(msgs.sort((a, b) => 
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    ));
+  };
 
-    const handleReceive = (msg: MessageData) => {
-      if (msg.userId === userId) setMessages((prev) => [msg, ...prev]);
-    };
+  socket.on("inbox_messages", handleInbox);
+  socket.on("new_reply", (msg: MessageData) => {
+    if (msg.toUserId === userId) setMessages(prev => [msg, ...prev]);
+  });
 
-    socket.on("message_history", handleHistory);
-    socket.on("receive_message", handleReceive);
-
-    return () => {
-      socket.off("message_history", handleHistory);
-      socket.off("receive_message", handleReceive);
-    };
-  }, [userId]);
+  return () => {
+    socket.off("inbox_messages", handleInbox);
+    socket.off("new_reply");
+  };
+}, [userId]);
 
   const handleSendMessage = () => {
     if (!userId || !messageText.trim()) return;
