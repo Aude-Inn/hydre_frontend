@@ -1,7 +1,7 @@
 export interface GameNotificationData {
     _id: string;
     name: string;
-    addedAt: string;
+    timestamp: string;
   }
   
  export interface MessageData {
