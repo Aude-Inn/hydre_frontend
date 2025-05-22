@@ -11,57 +11,43 @@ export function Messbox() {
   useEffect(() => {
     if (!userId) return;
 
-    const handleConnect = () => {
-      console.log("[Messbox] Socket connectée avec ID:", socket.id);
-    };
-
-    const handleInboxMessages = (msgs: MessageData[]) => {
-      const filtered = msgs.filter((msg) => msg.toUserId === userId);
-      setMessages(filtered);
-      console.log("[Messbox] Inbox chargée:", filtered);
-    };
-
-    const handleNewMessage = (msg: MessageData) => {
-      if (msg.toUserId === userId) {
-        console.log("[Messbox] Nouveau message reçu:", msg);
-        setMessages((prev) => [msg, ...prev]);
-      } else {
-        console.log("[Messbox] Message ignoré, toUserId différent:", msg.toUserId);
-      }
-    };
-
     socket.emit("request_inbox", userId);
-    console.log("[Messbox] Émission 'request_inbox' avec userId:", userId);
 
-    socket.on("connect", handleConnect);
-    socket.on("inbox_messages", handleInboxMessages);
-    socket.on("receive_message", handleNewMessage);
+    const handleInbox = (msgs: MessageData[]) => {
+      setMessages(msgs.filter((msg) => msg.toUserId === userId));
+    };
+
+    const handleReceive = (msg: MessageData) => {
+      if (msg.toUserId === userId) setMessages((prev) => [msg, ...prev]);
+    };
+
+    socket.on("inbox_messages", handleInbox);
+    socket.on("receive_message", handleReceive);
 
     return () => {
-      console.log("[Messbox] Nettoyage des écouteurs socket");
-      socket.off("connect", handleConnect);
-      socket.off("inbox_messages", handleInboxMessages);
-      socket.off("receive_message", handleNewMessage);
+      socket.off("inbox_messages", handleInbox);
+      socket.off("receive_message", handleReceive);
     };
   }, [userId]);
 
   return (
- <div className="p-4 border rounded-md bg-white shadow-md">
-  <h2 className="text-lg font-semibold mb-2 text-black">Messages reçus</h2>
-  {messages.length === 0 ? (
-    <p className="text-black">Aucun message.</p>
-  ) : (
-    <ul className="space-y-2">
-      {messages.map((msg) => (
-        <li key={msg._id} className="border-b pb-2 border-gray-200">
-          <div className="text-sm text-black">
-            {new Date(msg.timestamp).toLocaleString()}
-          </div>
-          <div className="text-black">{msg.text}</div>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+    <div className="p-4 border rounded-md bg-white shadow-md">
+      <h2 className="text-lg font-semibold mb-2 text-black">Messages reçus</h2>
+      {!messages.length ? (
+        <p className="text-black">Aucun message.</p>
+      ) : (
+        <ul className="space-y-2">
+          {messages.map((msg) => (
+            <li key={msg._id} className="border-b pb-2">
+              <div className="text-sm text-black">
+                {new Date(msg.timestamp).toLocaleString()}
+              </div>
+              <div className="text-black">{msg.text}</div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
+
