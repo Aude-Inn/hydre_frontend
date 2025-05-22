@@ -28,7 +28,7 @@ interface ClientToServerEvents {
   send_message: (data: Omit<MessageData, "_id" | "timestamp">, cb: (res: { success: boolean; error?: string }) => void) => void;
   request_messages: () => void;
   delete_message: (id: string) => void;
-   game_notification: (data: GameNotificationData) => void; 
+  
 }
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_URL, {
