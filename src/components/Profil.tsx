@@ -148,7 +148,7 @@ export function Profil() {
                 key={msg._id}
                 className="bg-white/5 p-2 rounded-md border border-white/10"
               >
-                <p className="text-white">{msg.text}</p>
+                <p className="text-black">{msg.text}</p>
                 <p className="text-xs text-gray-400">
                   {new Date(msg.timestamp).toLocaleString()}
                 </p>
