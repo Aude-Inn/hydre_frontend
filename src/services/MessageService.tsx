@@ -1,6 +1,5 @@
 import axios from "axios";
 import { API_ENDPOINTS } from "../utils/apiConfig";
-// import { MessageData } from "../types/socket.types"; 
 
 const BASE_URL = API_ENDPOINTS
 
@@ -19,13 +18,3 @@ export const deleteMessage = async (messageId: string): Promise<void> => {
   }
 };
 
-// fetch des messages
-// export const fetchMessages = async (): Promise<MessageData[]> => {
-//   try {
-//     const response = await axios.get(API_ENDPOINTS.messages);
-//     return response.data;
-//   } catch (error) {
-//     console.error("Erreur lors de la récupération des messages :", error);
-//     throw error;
-//   }
-// };
