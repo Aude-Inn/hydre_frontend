@@ -16,13 +16,13 @@ interface ClientToServerEvents {
 export type { ServerToClientEvents, ClientToServerEvents };
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "http://localhost:5000", 
+  import.meta.env.VITE_API_URL || "http://localhost:5000",
   {
-    transports: ["websocket"], 
-    autoConnect: true, 
-    reconnection: true, 
-    reconnectionAttempts: Infinity, 
-    reconnectionDelay: 1000, 
+    transports: ["websocket"],
+    autoConnect: true,
+    reconnection: true,
+    reconnectionAttempts: Infinity,
+    reconnectionDelay: 1000,
   }
 );
 
