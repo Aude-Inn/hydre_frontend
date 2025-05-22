@@ -25,18 +25,25 @@ export function Profil() {
     setIsEditing(false);
   };
 
-  const handleSendMessage = () => {
-    if (message.trim()) {
-      socket.emit("send_message", {
-        userId: user?._id ?? "unknown",
-        userName: user?.name ?? "Anonymous",
-        text: message,
-      });
-      setMessage("");
-      setMessageSent(true);
-      setTimeout(() => setMessageSent(false), 3000);
-    }
-  };
+ const handleSendMessage = () => {
+  if (message.trim()) {
+    console.log("[Client] Envoi message :", {
+      userId: user?._id,
+      userName: user?.name,
+      text: message,
+    });
+
+    socket.emit("send_message", {
+      userId: user?._id ?? "unknown",
+      userName: user?.name ?? "Anonymous",
+      text: message,
+    });
+
+    setMessage("");
+    setMessageSent(true);
+    setTimeout(() => setMessageSent(false), 3000);
+  }
+};
 
   if (!user) {
     return <p className="text-white text-center">Chargement...</p>;

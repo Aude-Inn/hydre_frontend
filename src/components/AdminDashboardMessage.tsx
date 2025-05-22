@@ -7,25 +7,30 @@ export function AdminDashboardMessage() {
   const [messages, setMessages] = useState<MessageData[]>([]);
 
   useEffect(() => {
-    const handleHistory = (history: MessageData[]) => {
-      console.log("[Client] Historique reçu :", history);
-      setMessages(history);
-    };
+  const handleHistory = (history: MessageData[]) => {
+    console.log("[Client] Historique reçu :", history);
+    setMessages(history);
+  };
 
-    const handleNewMessage = (data: MessageData) => {
-      console.log("[Client] Nouveau message reçu :", data);
-      setMessages((prev) => [data, ...prev]);
-    };
+  const handleNewMessage = (data: MessageData) => {
+    console.log("[Client] Nouveau message reçu :", data);
+    setMessages((prev) => [data, ...prev]);
+  };
 
+  socket.on("connect", () => {
+    console.log("[Client] Socket connecté, id:", socket.id);
     socket.emit("request_history");
-    socket.on("message_history", handleHistory);
-    socket.on("receive_message", handleNewMessage);
+  });
 
-    return () => {
-      socket.off("message_history", handleHistory);
-      socket.off("receive_message", handleNewMessage);
-    };
-  }, []);
+  socket.on("message_history", handleHistory);
+  socket.on("receive_message", handleNewMessage);
+
+  return () => {
+    socket.off("connect");
+    socket.off("message_history", handleHistory);
+    socket.off("receive_message", handleNewMessage);
+  };
+}, []);
 
   const handleDelete = async (messageId: string) => {
     try {
