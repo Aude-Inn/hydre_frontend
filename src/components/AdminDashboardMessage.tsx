@@ -6,7 +6,7 @@ import { deleteMessage } from "../services/MessageService";
 export function AdminDashboardMessage() {
   const [messages, setMessages] = useState<MessageData[]>([]);
 
-  useEffect(() => {
+ useEffect(() => {
   const handleHistory = (history: MessageData[]) => {
     console.log("[Client] Historique reçu :", history);
     setMessages(history);
@@ -17,13 +17,18 @@ export function AdminDashboardMessage() {
     setMessages((prev) => [data, ...prev]);
   };
 
-  socket.on("connect", () => {
-    console.log("[Client] Socket connecté, id:", socket.id);
-    socket.emit("request_history");
-  });
-
   socket.on("message_history", handleHistory);
   socket.on("receive_message", handleNewMessage);
+
+  if (socket.connected) {
+    console.log("[Client] Socket déjà connecté");
+    socket.emit("request_history");
+  } else {
+    socket.on("connect", () => {
+      console.log("[Client] Socket connecté");
+      socket.emit("request_history");
+    });
+  }
 
   return () => {
     socket.off("connect");
