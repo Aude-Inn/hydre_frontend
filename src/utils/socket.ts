@@ -1,5 +1,6 @@
 import { io, Socket } from "socket.io-client";
 import { MessageData } from "../types/socket.types";
+import { GameNotificationData } from "../types/socket.types";
 
 const getUserId = () => {
   const userStr = localStorage.getItem("user");
@@ -18,7 +19,8 @@ const SOCKET_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 interface ServerToClientEvents {
   messages: (msgs: MessageData[]) => void;       
   newMessage: (msg: MessageData) => void;         
-  deleteMessage: (id: string) => void;           
+  deleteMessage: (id: string) => void; 
+  game_notification: (data: GameNotificationData) => void;          
   error: (msg: string) => void;                    
 }
 
