@@ -1,6 +1,6 @@
 import { GamesTable } from "../components/GamesTable";
 import { UsersTable } from "../components/UsersTable";
-import  MessagesList  from "../components/AdminDashboardMessage";
+import  {MessagesList} from "../components/AdminDashboardMessage";
 
 export function Dashboard() {
   return (

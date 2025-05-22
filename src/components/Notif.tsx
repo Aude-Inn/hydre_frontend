@@ -1,16 +1,22 @@
+
 import { useEffect, useState, useRef } from "react";
 import socket from "../utils/socket";
-import { GameNotificationData } from "../types/socket.types";
+import type { ServerToClientEvents, ClientToServerEvents } from "../utils/socket";
+import type { Socket } from "socket.io-client";
 import { fetchValidNotifications } from "../services/NotifService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Heart } from "lucide-react";
 import { NotificationsDropdown } from "./NotificationsDropdown";
+import { GameNotificationData } from "../types/socket.types";
 
 export function Notifications() {
   const [notifications, setNotifications] = useState<GameNotificationData[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  // Cast du socket avec les types corrects
+  const typedSocket = socket as Socket<ServerToClientEvents, ClientToServerEvents>;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -39,18 +45,17 @@ export function Notifications() {
     const handleGameNotification = (data: GameNotificationData) => {
       if (data?.name && data?.timestamp) {
         setNotifications((prev) => [data, ...prev]);
-
         toast.info(`💜 Nouveau jeu ajouté : ${data.name}`);
       }
     };
 
-    socket.on("game_notification", handleGameNotification);
+    typedSocket.on("game_notification", handleGameNotification);
 
     return () => {
       isMounted = false;
-      socket.off("game_notification", handleGameNotification);
+      typedSocket.off("game_notification", handleGameNotification);
     };
-  }, []);
+  }, [typedSocket]);
 
   return (
     <div ref={ref} className="relative">

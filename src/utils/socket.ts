@@ -1,11 +1,23 @@
 import { io, Socket } from "socket.io-client";
-import { MessageData } from "../types/socket.types";
-import { GameNotificationData } from "../types/socket.types";
+import { MessageData, GameNotificationData } from "../types/socket.types";
+
+export interface ServerToClientEvents {
+  messages: (msgs: MessageData[]) => void;       
+  newMessage: (msg: MessageData) => void;         
+  deleteMessage: (id: string) => void; 
+  game_notification: (data: GameNotificationData) => void;          
+  error: (msg: string) => void;                    
+}
+
+export interface ClientToServerEvents {
+  send_message: (data: Omit<MessageData, "_id" | "timestamp">, cb: (res: { success: boolean; error?: string }) => void) => void;
+  request_messages: () => void;
+  delete_message: (id: string) => void;
+}
 
 const getUserId = () => {
   const userStr = localStorage.getItem("user");
   if (!userStr) return null;
-
   try {
     const user = JSON.parse(userStr);
     return user._id || null;
@@ -15,21 +27,6 @@ const getUserId = () => {
 };
 
 const SOCKET_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-interface ServerToClientEvents {
-  messages: (msgs: MessageData[]) => void;       
-  newMessage: (msg: MessageData) => void;         
-  deleteMessage: (id: string) => void; 
-  game_notification: (data: GameNotificationData) => void;          
-  error: (msg: string) => void;                    
-}
-
-interface ClientToServerEvents {
-  send_message: (data: Omit<MessageData, "_id" | "timestamp">, cb: (res: { success: boolean; error?: string }) => void) => void;
-  request_messages: () => void;
-  delete_message: (id: string) => void;
-  
-}
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_URL, {
   transports: ["websocket"],

@@ -3,7 +3,7 @@ import socket from "../utils/socket";
 import { MessageData } from "../types/socket.types";
 import { deleteMessage } from "../utils/socket";
 
-function MessagesList() {
+export function MessagesList() {
   const [messages, setMessages] = useState<MessageData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -70,4 +70,4 @@ function MessagesList() {
   );
 };
 
-export default MessagesList;
+
