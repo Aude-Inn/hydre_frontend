@@ -13,6 +13,7 @@ interface ClientToServerEvents {
   request_history: () => void; 
 }
 
+export type { ServerToClientEvents, ClientToServerEvents };
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:5000", 
