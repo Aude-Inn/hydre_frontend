@@ -1,6 +1,4 @@
-import { Messbox } from "../components/BoxMess";
 import { Profil } from "../components/Profil";
-
 
 export function UserProfile() {
   return (
@@ -10,9 +8,6 @@ export function UserProfile() {
           Un espace rien que pour toi 🐲
         </h1>
         <Profil/>
-        <div>
-        <Messbox />
-        </div>
       </div>
     </div>
   );

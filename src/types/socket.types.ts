@@ -4,14 +4,8 @@ export interface GameNotificationData {
 }
 
 export interface MessageData {
-  _id: string;
-  userId: string;
-  userName?: string;
-  text: string;
-  timestamp: string | Date;
- toUserId?: string | null;
-  replyTo?: string;
-  replyText?: string;
-  replyTimestamp?: string | Date;
+  _id: string;            
+  userId: string;        
+  text: string;           
+  timestamp: string;     
 }
-
