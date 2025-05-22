@@ -46,22 +46,22 @@ export function Messbox() {
   }, [userId]);
 
   return (
-    <div className="p-4 border rounded-md bg-white shadow-md">
-      <h2 className="text-lg font-semibold mb-2">Messages reçus</h2>
-      {messages.length === 0 ? (
-        <p>Aucun message.</p>
-      ) : (
-        <ul className="space-y-2">
-          {messages.map((msg) => (
-            <li key={msg._id} className="border-b pb-2">
-              <div className="text-sm text-gray-500">
-                {new Date(msg.timestamp).toLocaleString()}
-              </div>
-              <div>{msg.text}</div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+ <div className="p-4 border rounded-md bg-white shadow-md">
+  <h2 className="text-lg font-semibold mb-2 text-black">Messages reçus</h2>
+  {messages.length === 0 ? (
+    <p className="text-black">Aucun message.</p>
+  ) : (
+    <ul className="space-y-2">
+      {messages.map((msg) => (
+        <li key={msg._id} className="border-b pb-2 border-gray-200">
+          <div className="text-sm text-black">
+            {new Date(msg.timestamp).toLocaleString()}
+          </div>
+          <div className="text-black">{msg.text}</div>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
   );
 }
