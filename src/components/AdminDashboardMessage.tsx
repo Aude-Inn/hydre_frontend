@@ -8,37 +8,36 @@ export function MessagesList() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    
-    socket.emit("request_messages");
+  socket.emit("request_messages");
+  console.log("Émis request_messages");
 
-    
-    socket.on("messages", (msgs) => {
-      setMessages(msgs);
-    });
+  socket.on("messages", (msgs) => {
+    console.log("Reçu messages:", msgs);
+    setMessages(msgs);
+  });
 
-  
-    socket.on("newMessage", (msg) => {
-      setMessages((prev) => [msg, ...prev]);
-    });
+  socket.on("newMessage", (msg) => {
+    console.log("Reçu newMessage:", msg);
+    setMessages((prev) => [msg, ...prev]);
+  });
 
+  socket.on("deleteMessage", (id) => {
+    console.log("Reçu deleteMessage:", id);
+    setMessages((prev) => prev.filter((msg) => msg._id !== id));
+  });
 
-    socket.on("deleteMessage", (id) => {
-      setMessages((prev) => prev.filter((msg) => msg._id !== id));
-    });
+  socket.on("error", (msg) => {
+    console.log("Reçu error:", msg);
+    setError(msg);
+  });
 
-  
-    socket.on("error", (msg) => {
-      setError(msg);
-    });
-
-
-    return () => {
-      socket.off("messages");
-      socket.off("newMessage");
-      socket.off("deleteMessage");
-      socket.off("error");
-    };
-  }, []);
+  return () => {
+    socket.off("messages");
+    socket.off("newMessage");
+    socket.off("deleteMessage");
+    socket.off("error");
+  };
+}, []);
 
   const handleDelete = (id: string) => {
     deleteMessage(id);

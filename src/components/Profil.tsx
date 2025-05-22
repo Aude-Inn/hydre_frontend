@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { sendMessage } from "../utils/socket";
 
-
 export function Profil() {
   const { user, logout, updateUserName } = useAuth();
   const navigate = useNavigate();
@@ -39,6 +38,7 @@ export function Profil() {
   };
 
   const handleSendMessage = () => {
+    console.log("handleSendMessage appelé, message:", message);
     if (!message.trim() || !user) return;
 
     const msgToSend = {
@@ -47,6 +47,7 @@ export function Profil() {
     };
 
     sendMessage(msgToSend, (response) => {
+      console.log("Réponse du serveur au sendMessage:", response);
       if (response.success) {
         setMessage("");
         setMessageSent(true);
@@ -56,7 +57,6 @@ export function Profil() {
       }
     });
   };
-
 
   if (!user) {
     return <p className="text-white text-center">Chargement...</p>;
