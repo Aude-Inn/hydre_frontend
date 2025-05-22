@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { sendMessage } from "../utils/socket";
+import socket from "../utils/socket";
 
 export function Profil() {
   const { user, logout, updateUserName } = useAuth();
@@ -9,53 +9,33 @@ export function Profil() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(user?.name || "");
-  const [isSavingName, setIsSavingName] = useState(false);
-
   const [message, setMessage] = useState("");
   const [messageSent, setMessageSent] = useState(false);
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
-    } else {
-      setNewName(user.name);
     }
   }, [user, navigate]);
 
-  const handleSaveName = async () => {
-    if (!newName.trim() || !user) return;
-
-    try {
-      setIsSavingName(true);
-      await updateUserName(newName.trim());
-      setIsEditing(false);
-    } catch (error) {
-      alert("Erreur lors de la mise à jour du nom");
-      console.error(error);
-    } finally {
-      setIsSavingName(false);
+  const handleSaveName = () => {
+    if (newName.trim() && newName !== user?.name) {
+      updateUserName(newName);
     }
+    setIsEditing(false);
   };
 
   const handleSendMessage = () => {
-    console.log("handleSendMessage appelé, message:", message);
-    if (!message.trim() || !user) return;
-
-    const msgToSend = {
-      userId: user._id,
-      text: message.trim(),
-    };
-
-    sendMessage(msgToSend, (response) => {
-      console.log("Réponse du serveur au sendMessage:", response);
-      if (response.success) {
-        setMessage("");
-        setMessageSent(true);
-        setTimeout(() => setMessageSent(false), 3000);
-      } else {
-        alert("Erreur lors de l'envoi du message : " + response.error);
-      }
-    });
+    if (message.trim()) {
+      socket.emit("send_message", {
+        userId: user?._id ?? "unknown",
+        userName: user?.name ?? "Anonymous",
+        text: message,
+      });
+      setMessage("");
+      setMessageSent(true);
+      setTimeout(() => setMessageSent(false), 3000);
+    }
   };
 
   if (!user) {
@@ -87,7 +67,6 @@ export function Profil() {
               onChange={(e) => setNewName(e.target.value)}
               className="flex-1 p-2 bg-black/30 border border-gray-600 rounded-md text-white"
               placeholder="Nouveau nom"
-              disabled={isSavingName}
             />
           ) : (
             <p className="text-lg font-semibold">{user.name}</p>
@@ -97,10 +76,9 @@ export function Profil() {
         {isEditing && (
           <button
             onClick={handleSaveName}
-            disabled={isSavingName}
             className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
           >
-            {isSavingName ? "Sauvegarde..." : "Sauvegarder"}
+            Sauvegarder
           </button>
         )}
 
@@ -112,9 +90,7 @@ export function Profil() {
 
       {user.role === "user" && (
         <div className="mt-6">
-          <h3 className="text-xl font-semibold mb-2">
-            Tu veux voir un jeu ajouté sur Hydre ? Envoie-moi ta suggestion !
-          </h3>
+          <h3 className="text-xl font-semibold mb-2">Une proposition ?</h3>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}

@@ -1,11 +1,13 @@
 export interface GameNotificationData {
-  name: string;
-  timestamp: string;
-}
-
-export interface MessageData {
-  _id: string;            
-  userId: string;        
-  text: string;           
-  timestamp: string;     
-}
+    _id: string;
+    name: string;
+    addedAt: string;
+  }
+  
+ export interface MessageData {
+    _id: string;
+    userId: string;
+    userName: string;
+    text: string;
+    timestamp: string;
+  }

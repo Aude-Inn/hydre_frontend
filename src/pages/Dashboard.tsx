@@ -1,6 +1,6 @@
 import { GamesTable } from "../components/GamesTable";
 import { UsersTable } from "../components/UsersTable";
-import  {MessagesList} from "../components/AdminDashboardMessage";
+import { AdminDashboardMessage } from "../components/AdminDashboardMessage";
 
 export function Dashboard() {
   return (
@@ -12,7 +12,7 @@ export function Dashboard() {
       {/* Section Messages  */}
       <section className="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-md border border-white/10">
         <h2 className="text-2xl font-semibold text-white mb-4">Messages des utilisateurs</h2>
-        <MessagesList />
+        <AdminDashboardMessage />
       </section>
 
       {/* Section Gestion des jeux */}
