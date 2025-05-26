@@ -1,7 +1,7 @@
 export function Footer() {
   return (
     <footer className="bg-black/20 backdrop-blur-sm text-gray-300 mt-12 rounded-t-2xl shadow-inner border-t border-pink-500/20">
-      <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left text-sm">
+      <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center text-sm">
         {/* Contact */}
         <div>
           <h3 className="font-semibold text-pink-400 mb-2">Contact</h3>
