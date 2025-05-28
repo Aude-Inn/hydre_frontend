@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_ENDPOINTS } from "../utils/apiConfig";
 import { Game } from "../types/game.type";
 
+
 // API GAMES
 const BASE_URL = API_ENDPOINTS.games;
 
@@ -49,7 +50,7 @@ export async function gameAdd(gameData: Game): Promise<Game> {
   try {
     const config = getAuthConfig();
     const response = await axios.post(BASE_URL, gameData, config);
-    return response.data;
+    return response.data.game;
   } catch (error) {
     console.error("[GameService] Erreur ajout jeu :", error);
     throw error;

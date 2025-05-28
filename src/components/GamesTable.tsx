@@ -53,7 +53,7 @@ export function GamesTable({ isDashboard }: GamesTableProps) {
         prevGames.map((g) => (g._id === updatedGame._id ? updatedGame : g))
       );
     } else {
-     
+   
       setGames((prevGames) => [...prevGames, updatedGame]);
     }
 
@@ -122,7 +122,8 @@ export function GamesTable({ isDashboard }: GamesTableProps) {
               </tr>
             </thead>
             <tbody>
-              {games.map((game) => (
+              {games.map((game) => { 
+                return (
                 <tr key={game._id} className="border-b border-white/10 hover:bg-white/5 transition">
                   <td className="py-2 px-4">
                     <Link to={`/game-details/${game._id}`} className="text-pink-300 hover:underline">
@@ -168,7 +169,7 @@ export function GamesTable({ isDashboard }: GamesTableProps) {
                     </td>
                   )}
                 </tr>
-              ))}
+              )})}
             </tbody>
           </table>
         </div>
