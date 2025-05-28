@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_ENDPOINTS } from "../utils/apiConfig";
 import { Game } from "../types/game.type";
 
-// API games
+// API GAMES
 const BASE_URL = API_ENDPOINTS.games;
 
 // Token + Headers
@@ -34,7 +34,6 @@ export async function getGame(): Promise<Game[]> {
 }
 
 //Game by Id
- 
 export async function getGameById(id: string): Promise<Game> {
   try {
     const response = await axios.get(`${BASE_URL}/${id}`);

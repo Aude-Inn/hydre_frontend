@@ -7,6 +7,8 @@ export function SignUpPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-200 via-purple-200 to-teal-200 mb-6">
           Si tu souhaites nous rejoindre c'est par ici :
         </h1>
+        
+        {/* Register */}
         <FormSignUp />
       </div>
     </div>

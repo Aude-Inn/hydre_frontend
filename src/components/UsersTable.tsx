@@ -77,8 +77,7 @@ export function UsersTable({ isDashboard }: UsersTableProps) {
       console.error(err);
     }
   };
-
-  // 🔄 Champs du formulaire
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

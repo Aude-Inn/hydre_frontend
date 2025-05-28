@@ -1,3 +1,4 @@
+// Notif type / Message type
 export interface GameNotificationData {
     _id: string;
     name: string;

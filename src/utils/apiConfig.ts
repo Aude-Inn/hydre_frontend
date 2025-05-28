@@ -1,5 +1,7 @@
 export const BASE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
+// ENDPOINTS
+
 export const API_ENDPOINTS = {
   games: `${BASE_API_URL}/api/games`,
   gameById: (id: string) => `${BASE_API_URL}/api/games/${id}`,

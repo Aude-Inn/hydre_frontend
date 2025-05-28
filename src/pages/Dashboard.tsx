@@ -9,19 +9,19 @@ export function Dashboard() {
       <span className="text-teal-300">Dashboard d’Hydre</span> 
       </h1>
 
-      {/* Section Messages  */}
+      {/* Messages */}
       <section className="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-md border border-white/10">
         <h2 className="text-2xl font-semibold text-white mb-4">Messages des utilisateurs</h2>
         <AdminDashboardMessage />
       </section>
 
-      {/* Section Gestion des jeux */}
+      {/* Games */}
       <section className="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-md border border-white/10">
         <h2 className="text-2xl font-semibold text-white mb-4">Gestion des jeux</h2>
         <GamesTable isDashboard={true} />
       </section>
 
-      {/* Section Gestion des utilisateurs */}
+      {/* Users */}
       <section className="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-md border border-white/10">
         <h2 className="text-2xl font-semibold text-white mb-4">Gestion des utilisateurs</h2>
         <UsersTable isDashboard={true} />

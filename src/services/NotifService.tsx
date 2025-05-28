@@ -3,7 +3,7 @@ import { GameNotificationData } from "../types/socket.types";
 import { API_ENDPOINTS } from "../utils/apiConfig";
 
 
-// Récupérer les notif
+// Récup les notif
 export const fetchValidNotifications = async (): Promise<GameNotificationData[]> => {
   try {
     const response = await axios.get<GameNotificationData[]>(API_ENDPOINTS.notifs);

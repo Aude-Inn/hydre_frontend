@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_ENDPOINTS } from "../utils/apiConfig";
 
+// API
 const BASE_URL = API_ENDPOINTS
 
 // delete

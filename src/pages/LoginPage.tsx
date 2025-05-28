@@ -7,6 +7,8 @@ export function LoginPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-200 via-purple-200 to-teal-200 mb-6 text-center">
           Welcome !
         </h1>
+
+        {/* Log */}
         <Login />
       </div>
     </div>

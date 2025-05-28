@@ -1,3 +1,4 @@
+// Game type
 export interface Game {
   _id: string;
   name: string;

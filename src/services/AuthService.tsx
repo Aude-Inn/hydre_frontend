@@ -2,9 +2,10 @@ import axios from "axios";
 import { API_ENDPOINTS } from "../utils/apiConfig";
 import { RegisterPayload, RegisterResponse } from "../types/auth.type";
 
+// API AUTH
 const BASE_URL = API_ENDPOINTS.auth;
 
-// Réinitialisation de mot de passe
+// Réinit MDP
 export const forgotPassword = async (email: string): Promise<{ message: string }> => {
   try {
     const response = await axios.post(`${BASE_URL}/forgot-password`, { email });
@@ -15,7 +16,7 @@ export const forgotPassword = async (email: string): Promise<{ message: string }
   }
 };
 
-// Réinitialisation avec token
+// Réinit MDP token
 export const resetPassword = async (token: string, password: string): Promise<{ message: string }> => {
   try {
     const response = await axios.post(`${BASE_URL}/reset-password/${token}`, { password });
@@ -26,7 +27,7 @@ export const resetPassword = async (token: string, password: string): Promise<{ 
   }
 };
 
-// Inscription
+// Register
 export const registerUser = async (payload: RegisterPayload): Promise<RegisterResponse> => {
   try {
     const response = await axios.post(`${BASE_URL}/register`, payload);

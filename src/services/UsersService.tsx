@@ -12,6 +12,7 @@ function getAuthConfig() {
   };
 }
 
+// All users
 export async function getAllUsers(): Promise<User[]> {
   try {
     const config = getAuthConfig();
@@ -27,6 +28,7 @@ export async function getAllUsers(): Promise<User[]> {
   }
 }
 
+// User by ID
 export async function getUserById(id: string): Promise<User> {
   try {
     const config = getAuthConfig();
@@ -43,6 +45,7 @@ export async function getUserById(id: string): Promise<User> {
   }
 }
 
+// Delete user
 export async function deleteUser(id: string): Promise<void> {
   try {
     const config = getAuthConfig();
@@ -58,6 +61,7 @@ export async function deleteUser(id: string): Promise<void> {
   }
 }
 
+// Login 
 export async function loginUser(
   email: string,
   password: string
@@ -76,6 +80,7 @@ export async function loginUser(
   }
 }
 
+// Update by ID
 export async function updateUserById(
   id: string,
   updatedData: { name: string; email: string; role: string }

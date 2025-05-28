@@ -3,6 +3,8 @@ import { GameNotificationData, MessageData } from "../types/socket.types";
 
 const SOCKET_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
+// Socket mess / notif
+
 interface ServerToClientEvents {
   game_notification: (data: GameNotificationData) => void;
   receive_message: (data: MessageData) => void;

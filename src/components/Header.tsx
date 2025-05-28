@@ -12,12 +12,10 @@ export function Header() {
             <Brand />
           </div>
 
-       
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <Nav />
           </div>
-
-          
+ 
           <div className="flex-shrink-0">
             <Notifications />
           </div>

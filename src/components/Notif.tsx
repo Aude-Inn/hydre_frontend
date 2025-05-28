@@ -15,7 +15,6 @@ export function Notifications() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Cast du socket avec les types corrects
   const typedSocket = socket as Socket<ServerToClientEvents, ClientToServerEvents>;
 
   useEffect(() => {
