@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Heart } from "lucide-react";
 import { NotificationsDropdown } from "./NotificationsDropdown";
-import { GameNotificationData } from "../types/socket.types";
+import { GameNotificationData } from "../types/socket.type";
 
 export function Notifications() {
   const [notifications, setNotifications] = useState<GameNotificationData[]>([]);

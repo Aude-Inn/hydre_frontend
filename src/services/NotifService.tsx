@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GameNotificationData } from "../types/socket.types";
+import { GameNotificationData } from "../types/socket.type";
 import { API_ENDPOINTS } from "../utils/apiConfig";
 
 

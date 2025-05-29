@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-import { GameNotificationData, MessageData } from "../types/socket.types";
+import { GameNotificationData, MessageData } from "../types/socket.type";
 
 const SOCKET_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 

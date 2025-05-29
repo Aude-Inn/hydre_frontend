@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import socket from "../utils/socket";
-import { MessageData } from "../types/socket.types";
+import { MessageData } from "../types/socket.type";
 import { deleteMessage } from "../services/MessageService";
 
 export function AdminDashboardMessage() {

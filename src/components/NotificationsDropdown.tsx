@@ -1,4 +1,4 @@
-import { GameNotificationData } from "../types/socket.types";
+import { GameNotificationData } from "../types/socket.type";
 
 type Props = {
   notifications: GameNotificationData[];
