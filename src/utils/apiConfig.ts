@@ -12,4 +12,6 @@ export const API_ENDPOINTS = {
   authLogin: `${BASE_API_URL}/api/auth/login`,
   auth: `${BASE_API_URL}/api/auth`,
   notifs: `${BASE_API_URL}/api/notifs`,
+  search:`${BASE_API_URL}/api/games/search`,
+  topGames:`${BASE_API_URL}/api/games/top`,
 };

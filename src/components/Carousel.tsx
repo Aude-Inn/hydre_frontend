@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Game } from "../types/game.type";
-import { getGame } from "../services/GameService";
+import { getGames } from "../services/GameService";
 
 export function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -11,7 +11,7 @@ export function Carousel() {
   useEffect(() => {
     const axiosGames = async () => {
       try {
-        const loadedGames = await getGame();
+        const loadedGames = await getGames();
         setGamesData(loadedGames);
         const interval = setInterval(() => {
           setCurrentIndex((prevIndex) => (prevIndex + 1) % loadedGames.length);

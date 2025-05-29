@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Check } from "lucide-react";
 import { formatDateForInput } from "../utils/formatDate";
 import { Game } from "../types/game.type";

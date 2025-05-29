@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FormAddGame } from "./FormAddGame";
 import { formatDateForInput } from "../utils/formatDate";
 import { Game } from "../types/game.type";
-import { deleteGame, getGame } from "../services/GameService";
+import { deleteGame, getGames } from "../services/GameService";
 import { Link } from "react-router-dom";
 
 interface GamesTableProps {
@@ -18,7 +18,7 @@ export function GamesTable({ isDashboard }: GamesTableProps) {
   useEffect(() => {
     const axiosGames = async () => {
       try {
-        const loadedGames = await getGame();
+        const loadedGames = await getGames();
         setGames(loadedGames);
       } catch (error) {
         console.log("Error loading games:", error);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; 
-import { getGame } from "../services/GameService";
+import { topGames as fetchTopGames } from '../services/GameService';
 import { Game } from "../types/game.type";
 
 export function TopGamesTable() {
@@ -8,25 +8,20 @@ export function TopGamesTable() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const axiosGames = async () => {
+    useEffect(() => {
+    const loadGames = async () => {
       try {
-        const loadedGames = await getGame();
-
-        const sortedGames = loadedGames
-          .sort((a, b) => b.averageRating - a.averageRating)
-          .slice(0, 5);
-
-        setTopGames(sortedGames);
+        const loadedGames = await fetchTopGames();
+        setTopGames(loadedGames);
       } catch (err) {
+        console.error("Erreur API :", err);
         setError("Une erreur s'est produite lors de la récupération des jeux.");
-        console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    axiosGames();
+    loadGames();
   }, []);
 
   if (loading) return <div className="text-center text-gray-600">Chargement...</div>;
